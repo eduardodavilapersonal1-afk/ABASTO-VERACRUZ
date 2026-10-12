@@ -1,0 +1,1248 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Abasto Veracruz</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: barra de control fija arriba, secciones apiladas; cada sección abre con sus KPI y luego el detalle. */
+:root{
+  --f-disp:"Archivo","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",monospace;
+  --navy:#122C5C; --navy2:#1F4176; --accent:#C8611A;
+  --bg:#F7F6F3; --surface:#FFFFFF; --surface2:#F1F0EC; --surface3:#E7E5DE;
+  --ink:#1A1D21; --ink2:#454A52; --ink3:#6E7480;
+  --line:#DAD7CE; --line2:#C5C1B6;
+  --good:#146B45; --good-bg:#E8F2EB; --good-line:#BBD8C6;
+  --warn:#8A5A00; --warn-bg:#FBF1DE; --warn-line:#E6D2A8;
+  --bad:#A82F1C;  --bad-bg:#FBEBE7;  --bad-line:#E8C5BB;
+  --s1:#2E63A8; --s2:#F07C1E; --s3:#2E8B6B;      /* Centro · Norte · Sur */
+  --r:10px; --shadow:0 1px 2px rgba(18,44,92,.06),0 6px 18px rgba(18,44,92,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --navy:#9FB8E0; --navy2:#C3D3EC; --accent:#E59356;
+  --bg:#15161A; --surface:#1D1F24; --surface2:#242730; --surface3:#2E323C;
+  --ink:#ECEDF0; --ink2:#B9BDC6; --ink3:#878D99;
+  --line:#343843; --line2:#454A57;
+  --good:#5FC291; --good-bg:#15291F; --good-line:#2A4A37;
+  --warn:#DCA545; --warn-bg:#2A2314; --warn-line:#4D3F1E;
+  --bad:#EE8E7B;  --bad-bg:#2B1A17;  --bad-line:#4E2E27;
+  --s1:#5E92D2; --s2:#C07430; --s3:#219B74;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --navy:#9FB8E0; --navy2:#C3D3EC; --accent:#E59356;
+  --bg:#15161A; --surface:#1D1F24; --surface2:#242730; --surface3:#2E323C;
+  --ink:#ECEDF0; --ink2:#B9BDC6; --ink3:#878D99;
+  --line:#343843; --line2:#454A57;
+  --good:#5FC291; --good-bg:#15291F; --good-line:#2A4A37;
+  --warn:#DCA545; --warn-bg:#2A2314; --warn-line:#4D3F1E;
+  --bad:#EE8E7B;  --bad-bg:#2B1A17;  --bad-line:#4E2E27;
+  --s1:#5E92D2; --s2:#C07430; --s3:#219B74;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--f-disp);margin:0;text-wrap:balance;letter-spacing:-.012em}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- barra de control ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--navy);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.18)}
+:root[data-theme="dark"] .top,:root:not([data-theme="light"]) .top{background:#101218}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .top{background:#122C5C}}
+.topin{max-width:1420px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.brand{display:flex;flex-direction:column;gap:1px;margin-right:auto;min-width:0}
+.brand b{font-family:var(--f-disp);font-size:16px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.brand span{font-size:11px;color:#9FB2D1;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.wk{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.wk label{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:#9FB2D1;font-weight:700}
+.wk select{font-family:var(--f-mono);font-size:13px;font-weight:600;padding:5px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff}
+.wk select option{color:#1A1D21;background:#fff}
+.btn{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;padding:6px 13px;border-radius:999px;font-size:12.5px;font-weight:700}
+.btn:hover{background:rgba(255,255,255,.2)}
+.btn.pri{background:var(--accent);border-color:transparent;color:#fff}
+.btn.pri:hover{filter:brightness(1.1)}
+.navrow{max-width:1420px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;overflow-x:auto}
+.navrow a{color:#B9C8E4;text-decoration:none;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap}
+.navrow a:hover,.navrow a.on{background:rgba(255,255,255,.14);color:#fff}
+
+/* ---------- lienzo ---------- */
+.wrap{max-width:1420px;margin:0 auto;padding-inline:16px;padding-block:22px 48px}
+.sec{margin-top:34px;scroll-margin-top:120px}
+.sec:first-child{margin-top:8px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:9px;border-bottom:2px solid var(--navy);margin-bottom:16px}
+.shead h2{font-size:clamp(19px,2.6vw,25px);font-weight:800;color:var(--ink)}
+.shead p{margin:0;font-size:12.5px;color:var(--ink3);max-width:62ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px 14px;min-width:0}
+.card>h3{font-size:14px;font-weight:700;margin-bottom:2px}
+.card>p.k{margin:0 0 12px;font-size:12px;color:var(--ink3)}
+.g2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:start}
+.g2e{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start}
+.g2>*,.g2e>*,.g3>*{min-width:0}
+@media (max-width:980px){.g2,.g2e,.g3{grid-template-columns:1fr}}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 13px 12px;position:relative;overflow:hidden}
+.tile.hi{border-color:var(--accent);background:linear-gradient(180deg,var(--surface),var(--surface))}
+.tile.hi:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent)}
+.tile em{display:block;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.075em;text-transform:uppercase;color:var(--ink3)}
+.tile b{display:block;font-family:var(--f-disp);font-variant-numeric:tabular-nums;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:4px}
+.tile i{display:block;font-style:normal;font-size:11.5px;color:var(--ink3);margin-top:3px}
+.up{color:var(--good)} .dn{color:var(--bad)} .eq{color:var(--ink3)} .wa{color:var(--warn)}
+
+/* ---------- tablas ---------- */
+.tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{background:var(--navy);color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:7px 9px;text-align:right;white-space:nowrap;position:sticky;top:0}
+:root[data-theme="dark"] th,:root:not([data-theme="light"]) th{background:#262B36;color:#DCE3F0}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) th{background:#122C5C;color:#fff}}
+th:first-child,td:first-child{text-align:left}
+td{padding:6px 9px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+td.nm{text-align:left;font-weight:600;color:var(--ink)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+tr.me td{background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
+tr.tot td{background:var(--surface2);font-weight:700;border-top:2px solid var(--line2)}
+tr.grp td{background:var(--surface3);font-weight:700;text-align:left;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+tbody tr:hover td{background:var(--surface2)}
+tr.me:hover td,tr.tot:hover td{filter:brightness(.99)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid}
+.pill.g{color:var(--good);background:var(--good-bg);border-color:var(--good-line)}
+.pill.w{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-line)}
+.pill.b{color:var(--bad);background:var(--bad-bg);border-color:var(--bad-line)}
+.pill.n{color:var(--ink3);background:var(--surface2);border-color:var(--line)}
+
+/* ---------- mapeo ---------- */
+.mapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.mapblk h4{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.mrow{display:grid;grid-template-columns:1fr 58px 64px 74px;gap:6px;align-items:center;padding:3.5px 7px;border-radius:5px;font-size:12px}
+.mrow:nth-child(odd){background:var(--surface2)}
+.mrow.hd{background:var(--navy);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 7px}
+:root[data-theme="dark"] .mrow.hd,:root:not([data-theme="light"]) .mrow.hd{background:#262B36;color:#DCE3F0}
+.mrow .mn{font-weight:600;color:var(--ink);min-width:0;line-height:1.22;overflow-wrap:break-word}
+.mrow .mv{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:11px}
+.mrow .mv.p{color:var(--ink3)}
+.mrow .md{text-align:right;font-family:var(--f-mono);font-size:11px;font-weight:600}
+
+/* ---------- notas ---------- */
+.note{border-radius:9px;padding:11px 13px;font-size:12.5px;border:1px solid var(--line);background:var(--surface2);margin-top:12px}
+.note.g{background:var(--good-bg);border-color:var(--good-line)}
+.note.b{background:var(--bad-bg);border-color:var(--bad-line)}
+.note.w{background:var(--warn-bg);border-color:var(--warn-line)}
+.note h5{font-family:var(--f-disp);font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin:0 0 6px}
+.note.g h5{color:var(--good)} .note.b h5{color:var(--bad)} .note.w h5{color:var(--warn)} .note h5{color:var(--navy)}
+.note ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:4px}
+.foot{margin-top:30px;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink3)}
+
+/* ---------- gráficas ---------- */
+svg{display:block;max-width:100%;height:auto}
+.axl{font-family:var(--f-body);font-size:9.5px;fill:var(--ink3)}
+.axt{font-family:var(--f-body);font-size:10px;font-weight:600;fill:var(--ink2)}
+.vlab{font-family:var(--f-mono);font-size:9.5px;fill:var(--ink2)}
+.grid{stroke:var(--line);stroke-width:1}
+.refl{stroke:var(--navy2);stroke-width:1.5;stroke-dasharray:4 3}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin-top:8px}
+.leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* ---------- estado vacío / avisos ---------- */
+.empty{border:1.5px dashed var(--line2);border-radius:var(--r);padding:26px 20px;text-align:center;background:var(--surface)}
+.empty h3{font-size:17px;font-weight:700;margin-bottom:6px}
+.empty p{margin:0 auto 14px;font-size:13px;color:var(--ink3);max-width:52ch}
+.banner{border-radius:9px;padding:11px 14px;font-size:13px;margin-bottom:16px;border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--ink)}
+
+/* ---------- panel de captura ---------- */
+.ov{position:fixed;inset:0;z-index:60;background:rgba(10,14,24,.55);display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:14px;width:min(960px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3);margin:auto}
+.phead{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);border-radius:14px 14px 0 0;z-index:2}
+.phead h3{font-size:16px;font-weight:800;margin-right:auto}
+.pbody{padding:16px 18px 20px;display:flex;flex-direction:column;gap:14px}
+.x{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;width:30px;height:30px;font-size:17px;line-height:1}
+.steps{display:flex;gap:8px;flex-wrap:wrap}
+.step{font-size:11px;font-weight:700;color:var(--ink3);padding:3px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line)}
+.step.on{background:var(--navy);color:#fff;border-color:transparent}
+:root[data-theme="dark"] .step.on,:root:not([data-theme="light"]) .step.on{background:#2E63A8}
+.rlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px}
+.rbtn{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 11px;color:var(--ink)}
+.rbtn:hover{border-color:var(--accent)}
+.rbtn b{display:block;font-size:13px;font-weight:700}
+.rbtn span{display:block;font-size:11px;color:var(--ink3);margin-top:1px}
+.rbtn em{font-style:normal;font-size:10px;font-weight:700;color:var(--good)}
+.drop{border:1.5px dashed var(--line2);border-radius:10px;padding:18px;text-align:center;background:var(--surface)}
+.drop.hot{border-color:var(--accent);background:var(--surface2)}
+textarea,input[type=text],input[type=number],select{font-family:var(--f-body);font-size:13px;padding:7px 9px;border:1px solid var(--line);
+  border-radius:7px;background:var(--surface);color:var(--ink);width:100%}
+textarea{font-family:var(--f-mono);font-size:11.5px;min-height:110px;resize:vertical}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fld label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)}
+.fld .hint{font-size:10.5px;color:var(--ink3)}
+.maprow{display:grid;grid-template-columns:1fr 1.2fr;gap:9px;align-items:center;padding:4px 0;border-top:1px solid var(--line)}
+.maprow b{font-size:12px;font-weight:600}
+.maprow small{display:block;font-size:10.5px;color:var(--ink3);font-weight:400}
+.pv{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.pv table{font-size:11.5px}
+.pv td,.pv th{padding:4px 7px}
+.msg{font-size:12.5px;padding:9px 12px;border-radius:8px}
+.msg.ok{background:var(--good-bg);border:1px solid var(--good-line);color:var(--ink)}
+.msg.er{background:var(--bad-bg);border:1px solid var(--bad-line);color:var(--ink)}
+.rowend{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.btn2{border:1px solid var(--line2);background:var(--surface);color:var(--ink);padding:7px 15px;border-radius:999px;font-size:12.5px;font-weight:700}
+.btn2.pri{background:var(--accent);border-color:transparent;color:#fff}
+.btn2:disabled{opacity:.45;cursor:not-allowed}
+@media (max-width:620px){
+  .mrow{grid-template-columns:1fr 54px 58px 66px}
+  .frow{grid-template-columns:1fr}
+  .maprow{grid-template-columns:1fr}
+  .tile b{font-size:22px}
+}
+</style>
+
+<header class="top">
+  <div class="topin">
+    <div class="brand"><b>Abasto · Compañía Veracruz</b><span>Tiendas Neto · Gerencia Regional</span></div>
+    <div class="wk">
+      <label for="selA">Semana</label><select id="selA"></select>
+      <label for="selB">vs</label><select id="selB"></select>
+    </div>
+    <button class="btn pri" id="btnCap">Cargar datos</button>
+    <button class="btn" id="btnTheme" title="Cambiar tema">Tema</button>
+  </div>
+  <nav class="navrow" id="nav">
+    <a href="#resumen">Resumen</a><a href="#servicio">Nivel de servicio</a><a href="#zonas">Región y zona</a>
+    <a href="#cerveza">Cerveza</a><a href="#huevo">Huevo</a><a href="#perdida">Venta perdida</a><a href="#adoptados">Adoptados</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div id="aviso"></div>
+  <main id="board" aria-live="polite"></main>
+  <p class="foot" id="foot"></p>
+</div>
+
+<div class="ov" id="ov" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+"use strict";
+/* ===================== utilidades ===================== */
+const $=(s,r)=>(r||document).querySelector(s);
+const el=(t,a,h)=>{const n=document.createElement(t);if(a)for(const k in a){if(k==="class")n.className=a[k];else if(k==="html")n.innerHTML=a[k];else n.setAttribute(k,a[k]);}if(h!==undefined)n.textContent=h;return n;};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const NB=" "; // espacio duro: se dibuja en cualquier tipografía
+const nf=n=>n==null||!isFinite(n)?"—":Math.round(n).toLocaleString("en-US").replace(/,/g,NB);
+const p1=(n,d)=>n==null||!isFinite(n)?"—":n.toFixed(d==null?1:d)+"%";
+const pp=(n,d)=>n==null||!isFinite(n)?"—":(n<0?"−":"+")+Math.abs(n).toFixed(d==null?1:d)+" pp";
+const pc=(n,d)=>n==null||!isFinite(n)?"—":(n<0?"−":"+")+Math.abs(n).toFixed(d==null?1:d)+"%";
+const sg=n=>n==null||!isFinite(n)?"—":(n<0?"−":"+")+nf(Math.abs(n));
+const mn=n=>n==null||!isFinite(n)?"—":(n<0?"−$":"$")+Math.abs(Math.round(n)).toLocaleString("en-US").replace(/,/g,NB);
+const mm=(n,d)=>n==null||!isFinite(n)?"—":(n<0?"−$":"$")+(Math.abs(n)/1e6).toFixed(d==null?2:d)+NB+"M";
+const num=v=>{if(v==null||v==="")return null;if(typeof v==="number")return isFinite(v)?v:null;
+  let s=String(v).trim().replace(/−/g,"-").replace(/[$\s  %]/g,"");
+  const neg=/^\(.*\)$/.test(s); if(neg)s=s.slice(1,-1);
+  if(/,\d{1,2}$/.test(s)&&!/\./.test(s))s=s.replace(/\./g,"").replace(",",".");else s=s.replace(/,/g,"");
+  const n=parseFloat(s); return isFinite(n)?(neg?-n:n):null;};
+const mean=a=>{const v=a.filter(x=>x!=null&&isFinite(x));return v.length?v.reduce((s,x)=>s+x,0)/v.length:null;};
+const sum=a=>{const v=a.filter(x=>x!=null&&isFinite(x));return v.length?v.reduce((s,x)=>s+x,0):null;};
+const norm=s=>String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+const REG=s=>{const n=norm(s);return /norte/.test(n)?"Norte":/centro/.test(n)?"Centro":/\bsur\b/.test(n)?"Sur":null;};
+
+/* ===================== catálogo de reportes ===================== */
+/* filas = llaves de identidad · medidas = valores numéricos · dim2 = dimensión que el pivote puede traer en columnas */
+const F=(k,l,al,t)=>({k,l,al:al||[],t:t||"n"});
+const REPORTES=[
+ {key:"cedis",t:"Nivel de servicio por CEDIS",d:"Una fila por CEDIS más el total general de la cadena",
+  filas:[F("nombre","CEDIS",["cedis","nombre"],"s")],
+  medidas:[F("ns","Nivel de servicio",["nivel de servicio","ns"]),F("nsAtraso","NS con atraso",["ns con atraso"]),
+   F("nsSkuTop","NS SKU TOP",["ns sku top"]),F("partCd","% Part CD",["part cd","participacion cd"]),
+   F("cubierto","% Part cubierto",["part cubierto cd","cubierto"]),F("faltante","% Part faltante",["part faltate cd","part faltante cd","faltante"]),
+   F("alcance","Alcance tiendas",["alcance tiendas"]),F("cobertura","Tiendas con cobertura",["tiendas con cobertura"]),
+   F("desabasto","Tiendas en desabasto",["tiendas en desabasto"]),F("hueco","Tiendas con hueco",["tiendas con hueco"]),
+   F("atraso","Cajas con atraso",["cajas con atraso"]),F("transito","Cajas en tránsito",["cajas en transito cd tda","cajas en transito"]),
+   F("inventario","Inventario CEDIS",["inventario cedis"])]},
+ {key:"zonas",t:"NS por región y zona",d:"Una fila por zona, con su región",
+  filas:[F("region","Región",["region"],"s"),F("zona","Zona",["zona","etiquetas de fila"],"s")],
+  medidas:[F("ns","Nivel de servicio",["ns actual","nivel de servicio","ns"])]},
+ {key:"tiendas",t:"Tiendas nuevas del año",d:"Una fila por tienda nueva",
+  filas:[F("tienda","Tienda",["tienda"],"s")],
+  medidas:[F("id","Id tienda",["id tienda"]),F("ns","NS",["ns"]),F("nsTrans","NS con tránsito",["ns trans","ns con transito"]),
+   F("cajas","Cajas asignadas",["cajas asignadas"]),F("folios","Folios",["folios"])],
+  extras:[F("region","Región",["region"],"s"),F("zona","Zona",["zona"],"s")]},
+ {key:"cerveza",t:"Cerveza · existencia en tienda",d:"Cajas, dinero, DDI y excedentes por SKU y región. Carga un pivote a la vez.",
+  filas:[F("sku","SKU",["etiquetas de fila","articulo","sku","nombre articulo"],"s")],
+  medidas:[F("cajas","Cajas"),F("importe","Inventario a precio de venta"),F("ddi","DDI promedio"),
+   F("exc28","Combinaciones > 28 DDI"),F("exc300","Combinaciones > 300 cajas")],
+  dim2:{k:"region",l:"Región",vals:["Centro","Norte","Sur"]}},
+ {key:"cervezaCedis",t:"Cerveza · existencia en CEDIS",d:"Una fila por artículo",
+  filas:[F("articulo","Artículo",["nombre articulo","articulo"],"s")],
+  medidas:[F("cajas","Existencias",["existencias","cajas"]),F("importe","Inventario $",["inventario","inventario $"])]},
+ {key:"ventaCerveza",t:"Cerveza · venta del mes",d:"Una fila por región",
+  filas:[F("region","Región",["region"],"s")],
+  medidas:[F("especialAA","Venta Especial AA",["venta especial aa","especial aa"]),F("normal","Venta normal",["venta normal","normal"]),
+   F("cajas","Cajas (miles)",["cajas"])]},
+ {key:"huevo",t:"Huevo · piezas por semana",d:"Presentación y región en filas, semanas en columnas",
+  filas:[F("presentacion","Presentación",["presentacion","inventario"],"s"),F("region","Región",["region"],"s")],
+  medidas:[F("piezas","Piezas vendidas",["pzs vendidas","piezas"])],
+  dim2:{k:"semana",l:"Semana",vals:["S33","S34","S35","S36","S37","S38","S39","S40","S41","S42"]}},
+ {key:"huevoMes",t:"Huevo · mes contra año anterior",d:"Una fila por mes",
+  filas:[F("mes","Mes",["mes"],"s")],
+  medidas:[F("granelAA","Granel año anterior",["granel aa"]),F("granel","Granel actual",["granel 2026","granel"]),
+   F("docAA","Docenera año anterior",["docenera aa"]),F("doc","Docenera actual",["docenera 2026","docenera"])]},
+ {key:"adoptados",t:"Adoptados · venta por semana",d:"Región y producto en filas, semanas en columnas",
+  filas:[F("region","Región",["region"],"s"),F("producto","Producto",["producto","region producto"],"s")],
+  medidas:[F("monto","Venta $",["venta","monto"])],
+  dim2:{k:"semana",l:"Semana",vals:["S36","S37","S38","S39","S40","S41","S42"]}},
+ {key:"vpCat",t:"Venta perdida · por categoría",d:"Una fila por categoría",
+  filas:[F("categoria","Categoría",["categoria"],"s")],medidas:[F("monto","Pérdida",["perdida","monto"])]},
+ {key:"vpProv",t:"Venta perdida · por proveedor",d:"Una fila por proveedor",
+  filas:[F("proveedor","Proveedor",["proveedor"],"s")],medidas:[F("monto","Pérdida",["perdida","monto"])]},
+ {key:"vpSku",t:"Venta perdida · por producto",d:"Una fila por producto",
+  filas:[F("producto","Producto",["producto"],"s")],medidas:[F("monto","Pérdida",["perdida","monto"])]},
+ {key:"catVar",t:"Categorías · variación semanal",d:"Una fila por categoría, con su variación en pesos y en por ciento",
+  filas:[F("categoria","Categoría",["categoria"],"s")],
+  medidas:[F("variacion","Variación $",["variacion","variacion semanal"]),F("pct","Variación %",["variacion semanal %","pct","%"])]},
+ {key:"articulos",t:"Artículos con mayor faltante",d:"Una fila por artículo del reporte de NS",
+  filas:[F("articulo","Artículo",["articulo"],"s")],
+  medidas:[F("faltante","% Part faltante",["part falta","part faltante"]),F("ns","NS",["nivel de servicio","ns"]),
+   F("nsTrans","NS con tránsito",["ns con transito"]),F("desabasto","Tiendas en desabasto",["tiendas en desabasto"]),
+   F("hueco","Tiendas con hueco",["tiendas con hueco"]),F("transito","Cajas en tránsito",["cajas en transito"]),
+   F("inventario","Inventario CEDIS",["inventario cedis"])]}
+];
+const RMAP=Object.fromEntries(REPORTES.map(r=>[r.key,r]));
+
+/* captura manual de los datos que no vienen en tabla */
+const ESCALARES=[
+ {g:"Nivel de servicio y pedido",f:[
+  ["asignadoMes","Asignado del mes (cajas)"],["recibidoMes","Recibido del mes (cajas)"],
+  ["nsPromDiario","NS promedio diario del mes (%)"],["diasSinAsig","Días sin asignación"],
+  ["adherencia","Adherencia del pedido (%)"]]},
+ {g:"Cerveza",f:[["ddiProm","DDI promedio reportado"],["cvCajasVend","Cajas vendidas del mes (miles)"]]},
+ {g:"Huevo",f:[["hvMonto","Venta del mes ($)"],["hvPiezas","Piezas del mes"],
+  ["hvInvGranel","Inventario CEDIS granel (cajas)"],["hvInvDoc","Inventario CEDIS docenera (cajas)"]]},
+ {g:"Venta perdida",f:[["vpTotal","Total general ($)"],["vpProvRestr","Proveedores con restricción"],
+  ["vpBloqTotal","En bloqueo total"],["vpBloqParcial","En bloqueo parcial"]]}
+];
+const DIAS_AYUDA="Días del mes que cubre cada semana, por ejemplo: S36:6, S37:7, S38:7, S39:7, S40:3";
+
+/* ===================== estado ===================== */
+let DB=null, USER=null, SEM={}, A=null, B=null, MAPEOS={}, UNSUB=null, ERR=null, PUEDE=null;
+function aplanar(snap){const next={};
+  ((snap&&snap.docs)||[]).forEach(d=>{if(!d.exists)return;const v=d.data();if(v)next[d.id]=Object.assign({},v,{id:d.id});});
+  return next;}
+const CAP={rep:null,paso:0,modo:"largo",headers:[],rows:[],map:{},dim:{},medida:null,file:""};
+
+/* ===================== métricas derivadas ===================== */
+const vcedis=w=>{const c=(w&&w.cedis)||[];return c.find(r=>/veracruz/.test(norm(r.nombre)))||null;};
+const cadena=w=>{const c=(w&&w.cedis)||[];return c.find(r=>/cadena|total general|total/.test(norm(r.nombre)))||null;};
+const cedisList=w=>((w&&w.cedis)||[]).filter(r=>!/cadena|total general|^total$/.test(norm(r.nombre)));
+function rank(w){const l=cedisList(w).filter(r=>r.ns!=null).sort((x,y)=>y.ns-x.ns);
+  const i=l.findIndex(r=>/veracruz/.test(norm(r.nombre)));return i<0?null:i+1;}
+function zres(w){const z=(w&&w.zonas)||[];if(!z.length)return null;
+  const porReg={};z.forEach(r=>{const g=REG(r.region)||r.region||"—";(porReg[g]=porReg[g]||[]).push(r);});
+  return {n:z.length,prom:mean(z.map(r=>r.ns)),bajo85:z.filter(r=>r.ns!=null&&r.ns<85).length,
+    sobre90:z.filter(r=>r.ns!=null&&r.ns>=90).length,porReg,
+    min:z.filter(r=>r.ns!=null).sort((a,b)=>a.ns-b.ns)[0],max:z.filter(r=>r.ns!=null).sort((a,b)=>b.ns-a.ns)[0]};}
+function tnres(w){const t=(w&&w.tiendas)||[];if(!t.length)return null;
+  return {n:t.length,prom:mean(t.map(r=>r.ns)),promT:mean(t.map(r=>r.nsTrans!=null?r.nsTrans:r.ns)),
+    bajo85:t.filter(r=>r.ns!=null&&r.ns<85).length,sobre95:t.filter(r=>r.ns!=null&&r.ns>=95).length,
+    cajas:sum(t.map(r=>r.cajas)),folios:sum(t.map(r=>r.folios))};}
+function cvres(w){const c=(w&&w.cerveza)||[];if(!c.length)return null;
+  const porReg={Centro:{},Norte:{},Sur:{}};const porSku={};
+  c.forEach(r=>{const g=REG(r.region);const k=r.sku;
+    if(!porSku[k])porSku[k]={sku:k,cajas:0,importe:0,exc28:0,exc300:0,ddi:[]};
+    ["cajas","importe","exc28","exc300"].forEach(m=>{if(r[m]!=null)porSku[k][m]+=r[m];});
+    if(r.ddi!=null)porSku[k].ddi.push(r.ddi);
+    if(g){if(!porReg[g].cajas)porReg[g]={cajas:0,importe:0,exc28:0,exc300:0,ddi:[]};
+      ["cajas","importe","exc28","exc300"].forEach(m=>{if(r[m]!=null)porReg[g][m]+=r[m];});
+      if(r.ddi!=null)porReg[g].ddi.push(r.ddi);}});
+  const skus=Object.values(porSku).map(s=>({...s,ddi:mean(s.ddi)})).sort((a,b)=>b.cajas-a.cajas);
+  return {skus,porReg,cajas:sum(skus.map(s=>s.cajas)),importe:sum(skus.map(s=>s.importe)),
+    exc28:sum(skus.map(s=>s.exc28)),exc300:sum(skus.map(s=>s.exc300))};}
+function hvres(w){const h=(w&&w.huevo)||[];if(!h.length)return null;
+  const semanas=[...new Set(h.map(r=>r.semana))].sort((a,b)=>num(String(a).replace(/\D/g,""))-num(String(b).replace(/\D/g,"")));
+  const serie=p=>semanas.map(s=>sum(h.filter(r=>norm(r.presentacion).includes(p)&&r.semana===s).map(r=>r.piezas))||0);
+  const g=serie("granel"),d=serie("docenera");
+  const tot=semanas.map((_,i)=>(g[i]||0)+(d[i]||0));
+  const L=semanas.length-1;
+  return {semanas,g,d,tot,ult:semanas[L],gU:g[L],dU:d[L],tU:tot[L],gP:g[L-1],dP:d[L-1],tP:tot[L-1],
+    mix:tot[L]?d[L]/tot[L]*100:null,filas:h};}
+function adres(w){const a=(w&&w.adoptados)||[];if(!a.length)return null;
+  const dias=(w.dias)||{};
+  const semanas=[...new Set(a.map(r=>r.semana))].sort((x,y)=>num(String(x).replace(/\D/g,""))-num(String(y).replace(/\D/g,"")));
+  const tot=semanas.map(s=>sum(a.filter(r=>r.semana===s).map(r=>r.monto))||0);
+  const ritmo=semanas.map((s,i)=>dias[s]?tot[i]/dias[s]:null);
+  const porReg={};a.forEach(r=>{const g=REG(r.region)||r.region;if(!g)return;
+    porReg[g]=porReg[g]||{};porReg[g][r.semana]=(porReg[g][r.semana]||0)+(r.monto||0);});
+  const porProd={};a.forEach(r=>{if(!r.producto)return;porProd[r.producto]=porProd[r.producto]||{};
+    porProd[r.producto][r.semana]=(porProd[r.producto][r.semana]||0)+(r.monto||0);});
+  const L=semanas.length-1;
+  return {semanas,tot,ritmo,porReg,porProd,dias,gran:sum(tot),ult:semanas[L],
+    ritmoU:ritmo[L],ritmoP:ritmo[L-1],mejor:semanas[ritmo.indexOf(Math.max(...ritmo.filter(x=>x!=null)))]};}
+function artres(w){const a=(w&&w.articulos)||[];if(!a.length)return null;
+  const ok=a.filter(r=>r.hueco!=null&&r.inventario!=null);
+  const g0=ok.filter(r=>r.inventario===0),gm=ok.filter(r=>r.inventario>0&&r.inventario<r.hueco),gr=ok.filter(r=>r.inventario>=r.hueco&&r.inventario>0);
+  const grp=l=>({n:l.length,hueco:sum(l.map(r=>r.hueco))||0,desabasto:sum(l.map(r=>r.desabasto))||0,
+    inv:sum(l.map(r=>r.inventario))||0,transito:sum(l.map(r=>r.transito))||0,filas:l});
+  return {filas:a.slice().sort((x,y)=>(y.faltante||0)-(x.faltante||0)),g0:grp(g0),gm:grp(gm),gr:grp(gr),
+    top10:sum(a.slice().sort((x,y)=>(y.faltante||0)-(x.faltante||0)).slice(0,10).map(r=>r.faltante))};}
+const E=(w,k)=>(w&&w.esc&&w.esc[k]!=null)?w.esc[k]:null;
+
+/* ===================== mapeo de indicadores ===================== */
+/* dir: 1 = subir es mejorar · -1 = bajar es mejorar · 0 = sin dirección */
+function indicadores(){
+ const g=(f,def)=>w=>{try{const v=f(w);return v==null||!isFinite(v)?null:v;}catch(e){return def==null?null:def;}};
+ const V=w=>vcedis(w)||{}, K=w=>cadena(w)||{};
+ const I=[];
+ const add=(blk,l,get,fmt,dir,dt)=>I.push({blk,l,get:g(get),fmt,dir,dt:dt||"abs"});
+ const B1="Nivel de servicio y faltante",B2="Abasto, adherencia y pedido",B3="Tiendas nuevas y zonas",
+       B4="Desempeño de cerveza",B5="Venta de huevo",B6="Venta perdida y categorías",B7="Adoptados y KPIs";
+ add(B1,"NS CD Veracruz",w=>V(w).ns,p1,1,"pp");
+ add(B1,"Ranking nacional",w=>rank(w),v=>v==null?"—":v+"° de 9",-1,"abs");
+ add(B1,"Brecha vs la cadena",w=>V(w).ns-K(w).ns,v=>pp(v),1,"pp");
+ add(B1,"NS de la cadena",w=>K(w).ns,p1,1,"pp");
+ add(B1,"NS con atraso",w=>V(w).nsAtraso,p1,1,"pp");
+ add(B1,"NS SKU TOP",w=>V(w).nsSkuTop,p1,1,"pp");
+ add(B1,"% faltante del CEDIS",w=>V(w).faltante,p1,-1,"pp");
+ add(B1,"% faltante de la cadena",w=>K(w).faltante,p1,-1,"pp");
+ add(B1,"% participación del CD",w=>V(w).partCd,p1,0,"pp");
+ add(B1,"% participación cubierta",w=>V(w).cubierto,p1,1,"pp");
+ add(B1,"% participación faltante",w=>V(w).partCd-V(w).cubierto,v=>p1(v),-1,"pp");
+ add(B1,"Alcance de tiendas",w=>V(w).alcance,nf,0,"abs");
+ add(B1,"Tiendas con cobertura",w=>V(w).cobertura,nf,1,"abs");
+ add(B1,"Registros en desabasto",w=>V(w).desabasto,nf,-1,"pct");
+ add(B1,"Registros con hueco",w=>V(w).hueco,nf,-1,"pct");
+ add(B1,"Cajas con atraso",w=>V(w).atraso,nf,-1,"pct");
+ add(B1,"Cajas en tránsito",w=>V(w).transito,nf,-1,"pct");
+ add(B1,"Inventario del CEDIS",w=>V(w).inventario,nf,1,"pct");
+ add(B1,"Costo del atraso en NS",w=>V(w).nsAtraso-V(w).ns,v=>v==null?"—":v.toFixed(1)+" pp",-1,"pp");
+ add(B1,"Hueco sin desabasto",w=>V(w).hueco-V(w).desabasto,nf,-1,"pct");
+ add(B1,"% del atraso de la cadena",w=>V(w).atraso/K(w).atraso*100,p1,-1,"pp");
+ add(B1,"% del hueco de la cadena",w=>V(w).hueco/K(w).hueco*100,p1,-1,"pp");
+
+ add(B2,"Asignado del mes",w=>E(w,"asignadoMes"),nf,1,"pct");
+ add(B2,"Recibido del mes",w=>E(w,"recibidoMes"),nf,1,"pct");
+ add(B2,"Cumplimiento del mes",w=>E(w,"recibidoMes")/E(w,"asignadoMes")*100,p1,1,"pp");
+ add(B2,"NS prom. diario del mes",w=>E(w,"nsPromDiario"),v=>p1(v,2),1,"pp");
+ add(B2,"Días sin asignación",w=>E(w,"diasSinAsig"),nf,-1,"abs");
+ add(B2,"Adherencia del pedido",w=>E(w,"adherencia"),v=>v==null?"—":v.toFixed(0)+"%",-1,"pp");
+ add(B2,"Exceso sobre lo sugerido",w=>E(w,"adherencia")-100,v=>pp(v,0),-1,"pp");
+
+ add(B3,"Tiendas nuevas",w=>(tnres(w)||{}).n,nf,1,"abs");
+ add(B3,"Tdas. nuevas · NS prom.",w=>(tnres(w)||{}).prom,p1,1,"pp");
+ add(B3,"Tdas. nuevas · c/tránsito",w=>(tnres(w)||{}).promT,p1,1,"pp");
+ add(B3,"Tdas. nuevas bajo 85%",w=>(tnres(w)||{}).bajo85,nf,-1,"abs");
+ add(B3,"Cajas asignadas al bloque",w=>(tnres(w)||{}).cajas,nf,1,"pct");
+ add(B3,"NS prom. de las zonas",w=>(zres(w)||{}).prom,v=>p1(v,2),1,"pp");
+ add(B3,"Zonas bajo 85%",w=>(zres(w)||{}).bajo85,nf,-1,"abs");
+ add(B3,"Zonas en 90% o más",w=>(zres(w)||{}).sobre90,nf,1,"abs");
+
+ add(B4,"Existencia en tienda (cj)",w=>(cvres(w)||{}).cajas,nf,-1,"pct");
+ add(B4,"Inventario precio venta",w=>(cvres(w)||{}).importe,v=>mm(v),-1,"pct");
+ add(B4,"DDI promedio",w=>E(w,"ddiProm"),nf,-1,"abs");
+ add(B4,"Combinaciones > 28 DDI",w=>(cvres(w)||{}).exc28,nf,-1,"pct");
+ add(B4,"Combinaciones > 300 cj",w=>(cvres(w)||{}).exc300,nf,-1,"pct");
+ add(B4,"Norte · % del inventario $",w=>{const c=cvres(w);return c?c.porReg.Norte.importe/c.importe*100:null;},p1,-1,"pp");
+ add(B4,"Sur · % del inventario $",w=>{const c=cvres(w);return c?c.porReg.Sur.importe/c.importe*100:null;},p1,-1,"pp");
+ add(B4,"Existencia en CEDIS (cj)",w=>sum(((w&&w.cervezaCedis)||[]).map(r=>r.cajas)),nf,1,"pct");
+ add(B4,"Venta del mes",w=>sum(((w&&w.ventaCerveza)||[]).map(r=>(r.especialAA||0)+(r.normal||0))),v=>mm(v),1,"pct");
+ add(B4,"Cajas vendidas (miles)",w=>E(w,"cvCajasVend"),v=>v==null?"—":v.toFixed(2),1,"pct");
+ add(B4,"Mezcla Especial AA",w=>{const v=(w&&w.ventaCerveza)||[];const aa=sum(v.map(r=>r.especialAA)),t=sum(v.map(r=>(r.especialAA||0)+(r.normal||0)));return t?aa/t*100:null;},p1,-1,"pp");
+
+ add(B5,"Venta del mes ($)",w=>E(w,"hvMonto"),v=>mm(v),1,"pct");
+ add(B5,"Piezas del mes",w=>E(w,"hvPiezas"),nf,1,"pct");
+ add(B5,"Granel semanal (pzs)",w=>(hvres(w)||{}).gU,nf,1,"pct");
+ add(B5,"Docenera semanal (pzs)",w=>(hvres(w)||{}).dU,nf,1,"pct");
+ add(B5,"Total semanal (pzs)",w=>(hvres(w)||{}).tU,nf,1,"pct");
+ add(B5,"Mix docenera",w=>(hvres(w)||{}).mix,p1,1,"pp");
+ add(B5,"Inv. CEDIS granel",w=>E(w,"hvInvGranel"),nf,1,"pct");
+ add(B5,"Inv. CEDIS docenera",w=>E(w,"hvInvDoc"),nf,1,"pct");
+ add(B5,"Variación vs año anterior",w=>{const m=(w&&w.huevoMes)||[];if(!m.length)return null;const u=m[m.length-1];
+   const aa=(u.granelAA||0)+(u.docAA||0),ac=(u.granel||0)+(u.doc||0);return aa?(ac/aa-1)*100:null;},pc,1,"pp");
+
+ add(B6,"Venta perdida acumulada",w=>E(w,"vpTotal"),v=>mm(v),-1,"pct");
+ add(B6,"Top 10 de productos",w=>sum(((w&&w.vpSku)||[]).slice(0,10).map(r=>r.monto)),mn,-1,"pct");
+ add(B6,"Peso del top 10 SKU",w=>sum(((w&&w.vpSku)||[]).slice(0,10).map(r=>r.monto))/E(w,"vpTotal")*100,p1,-1,"pp");
+ add(B6,"Peso del top de proveedores",w=>sum(((w&&w.vpProv)||[]).map(r=>r.monto))/E(w,"vpTotal")*100,p1,-1,"pp");
+ add(B6,"Proveedores con restricción",w=>E(w,"vpProvRestr"),nf,-1,"abs");
+ add(B6,"En bloqueo total",w=>E(w,"vpBloqTotal"),nf,-1,"abs");
+ add(B6,"Categorías al alza",w=>((w&&w.catVar)||[]).filter(r=>r.variacion>0).length,nf,1,"abs");
+ add(B6,"Variación positiva ($)",w=>sum(((w&&w.catVar)||[]).filter(r=>r.variacion>0).map(r=>r.variacion)),mn,1,"pct");
+ add(B6,"Variación negativa ($)",w=>sum(((w&&w.catVar)||[]).filter(r=>r.variacion<0).map(r=>r.variacion)),mn,1,"pct");
+ add(B6,"Variación neta ($)",w=>sum(((w&&w.catVar)||[]).map(r=>r.variacion)),mn,1,"pct");
+
+ add(B7,"Venta de adoptados",w=>(adres(w)||{}).gran,mn,1,"pct");
+ add(B7,"Ritmo diario",w=>(adres(w)||{}).ritmoU,mn,1,"pct");
+ add(B7,"Hueco con 0 cj en CEDIS",w=>(artres(w)||{g0:{}}).g0.n,nf,-1,"abs");
+ add(B7,"Registros · gestión central",w=>(artres(w)||{g0:{}}).g0.hueco,nf,-1,"pct");
+ add(B7,"Hueco · existencia corta",w=>(artres(w)||{gm:{}}).gm.n,nf,-1,"abs");
+ add(B7,"Hueco · existencia suficiente",w=>(artres(w)||{gr:{}}).gr.n,nf,1,"abs");
+ add(B7,"Top 10 SKU · faltante",w=>(artres(w)||{}).top10,v=>p1(v,1),-1,"pp");
+ return I;
+}
+const INDS=indicadores();
+const BLOQUES=[...new Set(INDS.map(i=>i.blk))];
+
+function evalInd(i,wa,wb){
+  const a=wa?i.get(wa):null, b=wb?i.get(wb):null;
+  let d=null,txt="—",sig=0;
+  if(a!=null&&b!=null){
+    if(i.dt==="pp"){d=a-b;txt=pp(d, Math.abs(d)<1?2:1);}
+    else if(i.dt==="pct"){d=b!==0?(a/b-1)*100:null;txt=d==null?"—":pc(d);}
+    else{d=a-b;txt=sg(d);}
+    if(d!=null&&Math.abs(d)<1e-9)txt="sin cambio";
+    if(i.dir!==0&&d!=null&&Math.abs(d)>1e-9) sig=(d>0?1:-1)*i.dir;
+  }else if(a!=null&&b==null){txt="nuevo";}
+  return {a,b,d,txt,sig,fa:a==null?"—":i.fmt(a),fb:b==null?"—":i.fmt(b)};
+}
+
+/* ===================== gráficas ===================== */
+function svgDot(rows,opt){ // dumbbell horizontal: valor actual vs previo
+  const o=Object.assign({w:560,rh:21,lw:118,vw:60,dw:58,lo:null,hi:null,ref:null,refL:""},opt||{});
+  const vals=rows.flatMap(r=>[r.v,r.p].filter(x=>x!=null)).concat(o.ref!=null?[o.ref]:[]);
+  if(!vals.length)return "";
+  let lo=o.lo!=null?o.lo:Math.floor(Math.min(...vals)-1), hi=o.hi!=null?o.hi:Math.ceil(Math.max(...vals)+1);
+  if(hi-lo<2){lo-=1;hi+=1;}
+  const H=rows.length*o.rh+34, trackX=o.lw, trackW=o.w-o.lw-o.vw-o.dw-8;
+  const x=v=>trackX+(v-lo)/(hi-lo)*trackW;
+  let s=`<svg viewBox="0 0 ${o.w} ${H}" role="img" aria-label="Comparativo por renglón">`;
+  const ticks=4;
+  for(let t=0;t<=ticks;t++){const v=lo+(hi-lo)*t/ticks;
+    s+=`<line class="grid" x1="${x(v).toFixed(1)}" y1="6" x2="${x(v).toFixed(1)}" y2="${rows.length*o.rh+8}"/>`;
+    s+=`<text class="axl" x="${x(v).toFixed(1)}" y="${rows.length*o.rh+22}" text-anchor="middle">${v.toFixed(0)}%</text>`;}
+  if(o.ref!=null){s+=`<line class="refl" x1="${x(o.ref).toFixed(1)}" y1="2" x2="${x(o.ref).toFixed(1)}" y2="${rows.length*o.rh+8}"/>`;
+    s+=`<text class="vlab" x="${(x(o.ref)+4).toFixed(1)}" y="${rows.length*o.rh+22}" style="font-weight:600">${esc(o.refL)}</text>`;}
+  rows.forEach((r,i)=>{const cy=i*o.rh+o.rh/2+6;
+    s+=`<text class="axt" x="0" y="${(cy+3.4).toFixed(1)}">${esc(r.l)}</text>`;
+    if(r.p!=null&&r.v!=null){s+=`<line x1="${x(r.p).toFixed(1)}" y1="${cy}" x2="${x(r.v).toFixed(1)}" y2="${cy}" stroke="var(--line2)" stroke-width="2.5" stroke-linecap="round"/>`;
+      s+=`<circle cx="${x(r.p).toFixed(1)}" cy="${cy}" r="3.6" fill="var(--bg)" stroke="var(--line2)" stroke-width="2"/>`;}
+    if(r.v!=null)s+=`<circle cx="${x(r.v).toFixed(1)}" cy="${cy}" r="5.2" fill="${r.me?"var(--s2)":"var(--s1)"}" stroke="var(--surface)" stroke-width="1.6"/>`;
+    s+=`<text class="vlab" x="${o.w-o.dw-6}" y="${(cy+3.4).toFixed(1)}" text-anchor="end" style="font-weight:700;fill:var(--ink)">${r.v==null?"—":r.v.toFixed(r.dec==null?1:r.dec)+"%"}</text>`;
+    const dd=(r.v!=null&&r.p!=null)?r.v-r.p:null;
+    s+=`<text class="vlab" x="${o.w-4}" y="${(cy+3.4).toFixed(1)}" text-anchor="end" style="font-weight:700;fill:${dd==null?"var(--ink3)":dd>=0?"var(--good)":"var(--bad)"}">${dd==null?"—":pp(dd)}</text>`;});
+  return s+"</svg>";
+}
+function svgBars(rows,opt){ // barras verticales desde cero
+  const o=Object.assign({w:520,h:190,fmt:nf,color:"var(--s2)"},opt||{});
+  const vals=rows.map(r=>r.v||0), mx=Math.max(...vals,1);
+  const ML=6,MR=6,MT=24,MB=26, pw=o.w-ML-MR, ph=o.h-MT-MB, bw=pw/rows.length;
+  let s=`<svg viewBox="0 0 ${o.w} ${o.h}" role="img" aria-label="Comparativo por categoría">`;
+  rows.forEach((r,i)=>{const hh=(r.v||0)/mx*ph, X=ML+i*bw+bw*0.18, W=bw*0.64, Y=MT+ph-hh;
+    s+=`<rect x="${X.toFixed(1)}" y="${Y.toFixed(1)}" width="${W.toFixed(1)}" height="${Math.max(hh,1).toFixed(1)}" rx="3" fill="${r.color||o.color}"/>`;
+    s+=`<text class="vlab" x="${(X+W/2).toFixed(1)}" y="${(Y-5).toFixed(1)}" text-anchor="middle" style="font-weight:700;fill:var(--ink)">${o.fmt(r.v)}</text>`;
+    s+=`<text class="axt" x="${(X+W/2).toFixed(1)}" y="${(MT+ph+15).toFixed(1)}" text-anchor="middle">${esc(r.l)}</text>`;});
+  return s+"</svg>";
+}
+function svgLines(series,labels,opt){
+  const o=Object.assign({w:540,h:210},opt||{});
+  const all=series.flatMap(s=>s.v).filter(x=>x!=null);
+  if(!all.length)return "";
+  const bruto=Math.max(...all)*1.12;
+  const paso=Math.pow(10,Math.floor(Math.log10(bruto/3)));
+  const unidad=[1,2,2.5,5,10].map(f=>f*paso).find(u=>bruto/3<=u)||paso*10;
+  const mx=unidad*3, ML=46,MR=10,MT=16,MB=30;
+  const pw=o.w-ML-MR, ph=o.h-MT-MB;
+  const X=i=>ML+(labels.length>1?i/(labels.length-1)*pw:pw/2), Y=v=>MT+ph-(v/mx)*ph;
+  let s=`<svg viewBox="0 0 ${o.w} ${o.h}" role="img" aria-label="Serie por semana">`;
+  for(let t=0;t<=3;t++){const v=unidad*t;
+    s+=`<line class="grid" x1="${ML}" y1="${Y(v).toFixed(1)}" x2="${o.w-MR}" y2="${Y(v).toFixed(1)}"/>`;
+    s+=`<text class="axl" x="${ML-6}" y="${(Y(v)+3.2).toFixed(1)}" text-anchor="end">${nf(v)}</text>`;}
+  labels.forEach((l,i)=>{s+=`<text class="axt" x="${X(i).toFixed(1)}" y="${(MT+ph+16).toFixed(1)}" text-anchor="middle">${esc(l)}</text>`;});
+  series.forEach(se=>{const pts=se.v.map((v,i)=>v==null?null:[X(i),Y(v)]).filter(Boolean);
+    s+=`<polyline fill="none" stroke="${se.c}" stroke-width="2.4" stroke-linejoin="round" points="${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")}"/>`;
+    pts.forEach(p=>{s+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="${se.c}" stroke="var(--surface)" stroke-width="1.6"/>`;});
+    const L=se.v.length-1;
+    if(se.v[L]!=null)s+=`<text class="vlab" x="${X(L).toFixed(1)}" y="${(Y(se.v[L])-9).toFixed(1)}" text-anchor="end" style="font-weight:700;fill:var(--ink)">${nf(se.v[L])}</text>`;});
+  return s+"</svg>";
+}
+const legend=items=>`<div class="leg">${items.map(i=>`<span><i style="background:${i.c}"></i>${esc(i.l)}</span>`).join("")}</div>`;
+
+/* ===================== render del tablero ===================== */
+function tile(em,b,i,cls,hi){return `<div class="tile${hi?" hi":""}"><em>${esc(em)}</em><b${cls?' class="'+cls+'"':''}>${b}</b>${i?`<i>${i}</i>`:""}</div>`;}
+function tabla(cols,rows,opt){
+  const o=opt||{};
+  let h=`<div class="tscroll"><table${o.min?` style="min-width:${o.min}px"`:""}><thead><tr>`+
+    cols.map(c=>`<th${c.a?` style="text-align:${c.a}"`:""}>${esc(c.l)}</th>`).join("")+`</tr></thead><tbody>`;
+  rows.forEach(r=>{h+=`<tr${r.cls?' class="'+r.cls+'"':''}>`+r.c.map((c,i)=>{
+    const cl=i===0?"nm":(cols[i]&&cols[i].t==="t"?"":"n");
+    return `<td${cl?' class="'+cl+'"':''}${c&&c.st?` style="${c.st}"`:""}>${c&&c.h!=null?c.h:(c==null?"—":esc(c))}</td>`;}).join("")+`</tr>`;});
+  return h+"</tbody></table></div>";
+}
+const dcell=(txt,sig)=>({h:`<span style="font-weight:700;color:${sig>0?"var(--good)":sig<0?"var(--bad)":"var(--ink3)"}">${esc(txt)}${sig>0?" ▲":sig<0?" ▼":""}</span>`});
+
+function render(){
+  const bd=$("#board"), av=$("#aviso");
+  av.innerHTML="";
+  if(!DB) av.innerHTML=`<div class="banner"><b>Modo lectura.</b> Para cargar y guardar semanas abre el tablero con tu cuenta de Claude. Lo que ya está guardado se muestra igual.</div>`;
+  else if(ERR==="revoked") av.innerHTML=`<div class="banner"><b>Se retiró el acceso a los datos durante esta sesión.</b> Vuelve a abrir el tablero.</div>`;
+  else if(ERR) av.innerHTML=`<div class="banner"><b>No pude leer las semanas guardadas.</b> Recarga la página; si sigue, el almacenamiento del tablero no está respondiendo.</div>`;
+  else if(PUEDE===false) av.innerHTML=`<div class="banner"><b>Solo lectura.</b> Puedes consultar todo, pero tu nivel de acceso no permite cargar semanas.</div>`;
+  const keys=Object.keys(SEM).sort();
+  if(!keys.length){
+    bd.innerHTML=`<div class="empty"><h3>Todavía no hay semanas cargadas</h3>
+      <p>Carga los mismos reportes que llevas al comité — nivel de servicio por CEDIS, zonas, tiendas nuevas, cerveza, huevo, cartera y adoptados — en Excel, CSV o pegados desde Excel. En cuanto haya dos semanas, el mapeo comparativo se calcula solo.</p>
+      <button class="btn2 pri" onclick="abrirCaptura()">Cargar la primera semana</button></div>`;
+    $("#foot").textContent="";
+    return;
+  }
+  const wa=SEM[A], wb=SEM[B]||null;
+  const V=vcedis(wa)||{}, K=cadena(wa)||{}, Vb=wb?(vcedis(wb)||{}):{};
+  let h="";
+
+  /* ---- resumen ---- */
+  const ev=INDS.map(i=>({i,r:evalInd(i,wa,wb)}));
+  const up=ev.filter(x=>x.r.sig>0).length, dn=ev.filter(x=>x.r.sig<0).length,
+        eq=ev.filter(x=>x.r.sig===0&&x.r.a!=null).length, sd=ev.filter(x=>x.r.a==null).length;
+  const mov=ev.filter(x=>x.r.d!=null&&x.i.dt==="pct"&&x.r.sig!==0).sort((a,b)=>Math.abs(b.r.d)-Math.abs(a.r.d));
+  const mejor=mov.find(x=>x.r.sig>0), peor=mov.find(x=>x.r.sig<0);
+  h+=`<section class="sec" id="resumen"><div class="shead"><h2>Resumen de la semana</h2>
+    <p>${esc(wa.label||A)} contra ${wb?esc(wb.label||B):"— sin semana de comparación"}${wa.corte?" · corte "+esc(wa.corte):""}</p></div><div class="tiles">`;
+  h+=tile("NS CD Veracruz",V.ns!=null?p1(V.ns):"—",
+      (rank(wa)?rank(wa)+"° de "+cedisList(wa).length+" CEDIS":"")+(Vb.ns!=null?" · "+pp(V.ns-Vb.ns):""),
+      Vb.ns!=null?(V.ns>=Vb.ns?"up":"dn"):"",true);
+  h+=tile("Brecha vs la cadena",(V.ns!=null&&K.ns!=null)?pp(V.ns-K.ns):"—",K.ns!=null?"Cadena "+p1(K.ns):"","up");
+  h+=tile("% faltante del CEDIS",V.faltante!=null?p1(V.faltante):"—",
+      (K.faltante!=null?"Cadena "+p1(K.faltante):"")+(Vb.faltante!=null?" · "+pp(V.faltante-Vb.faltante):""));
+  h+=tile("Cajas con atraso",nf(V.atraso),
+      (Vb.atraso?pc(V.atraso/Vb.atraso*100-100):"")+(K.atraso?" · "+p1(V.atraso/K.atraso*100)+" cadena":""),
+      Vb.atraso?(V.atraso<=Vb.atraso?"up":"dn"):"");
+  h+=tile("Indicadores que mejoran",String(up),(mejor?"Mejor: "+esc(mejor.i.l):"De "+(up+dn+eq)+" calculados"),"up");
+  h+=tile("Indicadores que deterioran",String(dn),peor?"Peor: "+esc(peor.i.l):"","dn");
+  h+=`</div>`;
+
+  h+=`<div class="card" style="margin-top:14px"><h3>Mapeo comparativo ${esc(wb?(wb.label||B)+" → "+(wa.label||A):wa.label||A)}</h3>
+    <p class="k">${up+dn+eq} indicadores calculados desde los reportes cargados. La cifra lleva su signo real; el color y la flecha dicen si eso conviene: <b>▲ mejora, ▼ deteriora</b>. Así, bajar el atraso o los DDI sale en verde.</p><div class="mapgrid">`;
+  BLOQUES.forEach(b=>{
+    const list=ev.filter(x=>x.i.blk===b&&x.r.a!=null);
+    if(!list.length)return;
+    h+=`<div class="mapblk"><h4>${esc(b)}</h4>
+      <div class="mrow hd"><span class="mn">Indicador</span><span class="mv">${esc(wb?(wb.label||B):"—")}</span><span class="mv">${esc(wa.label||A)}</span><span class="md">Mov.</span></div>`;
+    list.forEach(x=>{h+=`<div class="mrow"><span class="mn" title="${esc(x.i.l)}">${esc(x.i.l)}</span>
+      <span class="mv p">${x.r.fb}</span><span class="mv">${x.r.fa}</span>
+      <span class="md" style="color:${x.r.sig>0?"var(--good)":x.r.sig<0?"var(--bad)":"var(--ink3)"}">${esc(x.r.txt)}${x.r.sig>0?" ▲":x.r.sig<0?" ▼":""}</span></div>`;});
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+  if(mejor||peor)h+=`<div class="note"><h5>Lo que más se movió</h5><ul>
+    ${mejor?`<li><b>${esc(mejor.i.l)}</b> es el mejor movimiento: ${mejor.r.fb} → ${mejor.r.fa} (${esc(mejor.r.txt)}).</li>`:""}
+    ${peor?`<li><b>${esc(peor.i.l)}</b> es el peor: ${peor.r.fb} → ${peor.r.fa} (${esc(peor.r.txt)}).</li>`:""}
+    ${sd?`<li>${sd} indicadores quedan sin dato porque su reporte no está cargado en una de las dos semanas.</li>`:""}</ul></div>`;
+  h+=`</div></section>`;
+
+  /* ---- nivel de servicio ---- */
+  const cl=cedisList(wa);
+  if(cl.length){
+    const prev=wb?cedisList(wb):[];
+    const pm=Object.fromEntries(prev.map(r=>[norm(r.nombre),r]));
+    const rows=cl.slice().sort((a,b)=>(b.ns||0)-(a.ns||0)).map(r=>{
+      const p=pm[norm(r.nombre)];
+      return {l:r.nombre.replace(/^(CD|CEDIS)\s+/i,m=>m),v:r.ns,p:p?p.ns:null,me:/veracruz/.test(norm(r.nombre)),dec:1};});
+    h+=`<section class="sec" id="servicio"><div class="shead"><h2>Nivel de servicio</h2>
+      <p>Comparativo nacional por CEDIS, atraso, participación en la cadena y faltante</p></div><div class="g2">`;
+    h+=`<div class="card"><h3>NS por CEDIS</h3><p class="k">Punto lleno: ${esc(wa.label||A)}. Punto hueco: ${esc(wb?(wb.label||B):"sin comparación")}. La línea marca el promedio de la cadena.</p>
+      ${svgDot(rows,{w:600,ref:K.ns,refL:K.ns!=null?"Cadena "+p1(K.ns):""})}
+      ${legend([{c:"var(--s2)",l:"CD Veracruz"},{c:"var(--s1)",l:"Otros CEDIS"},{c:"var(--line2)",l:"Semana anterior"}])}</div>`;
+    const cols=[{l:"CEDIS"},{l:"NS"},{l:"Δ pp"},{l:"c/atraso"},{l:"SKU TOP"},{l:"% falt."},{l:"Cj atraso"},{l:"Δ%"},{l:"Tdas"}];
+    const trows=cl.slice().sort((a,b)=>(b.ns||0)-(a.ns||0)).map(r=>{
+      const p=pm[norm(r.nombre)], me=/veracruz/.test(norm(r.nombre));
+      const d=(p&&p.ns!=null&&r.ns!=null)?r.ns-p.ns:null;
+      const da=(p&&p.atraso)?r.atraso/p.atraso*100-100:null;
+      return {cls:me?"me":"",c:[r.nombre,p1(r.ns),d==null?"—":dcell(pp(d),d>=0?1:-1),p1(r.nsAtraso),p1(r.nsSkuTop),
+        p1(r.faltante),nf(r.atraso),da==null?"—":dcell(pc(da,0),da<0?1:-1),nf(r.alcance)]};});
+    if(K.ns!=null){const pk=wb?cadena(wb):null;const dk=(pk&&pk.ns!=null)?K.ns-pk.ns:null;
+      const dka=(pk&&pk.atraso)?K.atraso/pk.atraso*100-100:null;
+      trows.push({cls:"tot",c:["Cadena",p1(K.ns),dk==null?"—":dcell(pp(dk),dk>=0?1:-1),p1(K.nsAtraso),p1(K.nsSkuTop),
+        p1(K.faltante),nf(K.atraso),dka==null?"—":dcell(pc(dka,0),dka<0?1:-1),nf(K.alcance)]});}
+    h+=`<div class="card"><h3>Detalle por CEDIS</h3><p class="k">Ordenado por nivel de servicio</p>${tabla(cols,trows,{min:560})}
+      <div class="note"><h5>Lectura</h5><ul>
+      <li>Veracruz ${V.ns!=null&&Vb.ns!=null?(V.ns>=Vb.ns?"gana":"cede")+" "+pp(Math.abs(V.ns-Vb.ns)).replace("+",""):"—"} y está en ${rank(wa)||"—"}° lugar de ${cl.length}; la cadena ${K.ns!=null&&wb&&cadena(wb)?pp(K.ns-cadena(wb).ns):"—"}.</li>
+      <li>El atraso cuesta ${V.nsAtraso!=null&&V.ns!=null?(V.nsAtraso-V.ns).toFixed(1)+" pp":"—"} de NS. Con ${V.alcance&&K.alcance?p1(V.alcance/K.alcance*100):"—"} de las tiendas aportamos ${V.atraso&&K.atraso?p1(V.atraso/K.atraso*100):"—"} del atraso nacional.</li>
+      <li>${V.hueco!=null&&V.desabasto!=null?nf(V.hueco-V.desabasto)+" registros tienen hueco sin estar en desabasto: existencia bajo el mínimo.":"—"}</li></ul></div></div>`;
+    h+=`</div></section>`;
+  }
+
+  /* ---- zonas ---- */
+  const z=zres(wa);
+  if(z){
+    const zp=wb?zres(wb):null;
+    const pmz=zp?Object.fromEntries(((wb.zonas)||[]).map(r=>[norm(r.zona),r])):{};
+    h+=`<section class="sec" id="zonas"><div class="shead"><h2>Región y zona</h2>
+      <p>${z.n} zonas · promedio simple ${p1(z.prom,2)}${zp?" contra "+p1(zp.prom,2):""}</p></div><div class="tiles">`;
+    h+=tile("NS promedio de zonas",p1(z.prom,2),zp?pp(z.prom-zp.prom,2)+" vs "+esc(wb.label||B):"",zp?(z.prom>=zp.prom?"up":"dn"):"",true);
+    h+=tile("Zonas bajo 85%",String(z.bajo85),zp?sg(z.bajo85-zp.bajo85)+" vs "+esc(wb.label||B):"",z.bajo85?"dn":"up");
+    h+=tile("Zonas en 90% o más",String(z.sobre90),zp?sg(z.sobre90-zp.sobre90):"","up");
+    h+=tile("Dispersión",z.max&&z.min?(z.max.ns-z.min.ns).toFixed(2)+" pp":"—",z.max&&z.min?esc(z.max.zona)+" a "+esc(z.min.zona):"");
+    h+=`</div><div class="g3" style="margin-top:14px">`;
+    Object.keys(z.porReg).sort().forEach(rg=>{
+      const list=z.porReg[rg].slice().sort((a,b)=>(b.ns||0)-(a.ns||0));
+      const prom=mean(list.map(r=>r.ns));
+      const prv=zp&&zp.porReg[rg]?mean(zp.porReg[rg].map(r=>r.ns)):null;
+      const rows=list.map(r=>{const p=pmz[norm(r.zona)];
+        return {cls:r.ns!=null&&r.ns<85?"":"",c:[r.zona,{h:`<span style="font-weight:700;color:${r.ns<85?"var(--bad)":"var(--ink)"}">${p1(r.ns,2)}</span>`},
+          p?p1(p.ns,2):"—",(p&&p.ns!=null&&r.ns!=null)?dcell(pp(r.ns-p.ns,2),r.ns>=p.ns?1:-1):"—"]};});
+      rows.push({cls:"tot",c:["Promedio simple ("+list.length+")",p1(prom,2),prv!=null?p1(prv,2):"—",
+        prv!=null?dcell(pp(prom-prv,2),prom>=prv?1:-1):"—"]});
+      h+=`<div class="card"><h3>${esc(rg)}</h3><p class="k">${list.length} zonas</p>
+        ${tabla([{l:"Zona"},{l:esc(wa.label||A)},{l:esc(wb?(wb.label||B):"—")},{l:"Δ pp"}],rows,{min:260})}</div>`;
+    });
+    h+=`</div></section>`;
+  }
+
+  /* ---- tiendas nuevas ---- */
+  const tn=tnres(wa);
+  if(tn){
+    const tp=wb?tnres(wb):null;
+    const pmt=wb?Object.fromEntries(((wb.tiendas)||[]).map(r=>[String(r.id||norm(r.tienda)),r])):{};
+    const rows=((wa.tiendas)||[]).slice().sort((a,b)=>(a.ns||0)-(b.ns||0)).map(r=>{
+      const p=pmt[String(r.id||norm(r.tienda))];
+      const d=(p&&p.ns!=null&&r.ns!=null)?r.ns-p.ns:null;
+      return {c:[r.tienda,r.region||"—",{h:`<span style="font-weight:700;color:${r.ns<85?"var(--bad)":"var(--ink)"}">${p1(r.ns,2)}</span>`},
+        r.nsTrans!=null?p1(r.nsTrans,2):"—",d==null?{h:`<span class="pill w">nuevo</span>`}:dcell(pp(d,2),d>=0?1:-1),nf(r.cajas),nf(r.folios)]};});
+    h+=`<section class="sec"><div class="shead"><h2>Tiendas nuevas</h2><p>${tn.n} tiendas con NS medido</p></div><div class="g2">`;
+    h+=`<div class="card"><h3>Detalle por tienda</h3><p class="k">Ordenadas por NS actual</p>
+      ${tabla([{l:"Tienda"},{l:"Región",t:"t"},{l:"NS"},{l:"c/tránsito"},{l:"Δ vs "+esc(wb?(wb.label||B):"—")},{l:"Cajas"},{l:"Folios"}],rows,{min:540})}</div>`;
+    h+=`<div class="card"><h3>Resumen del bloque</h3><p class="k">Promedios sobre las ${tn.n} tiendas del corte</p><div class="tiles">`;
+    h+=tile("NS promedio",p1(tn.prom),tp?pp(tn.prom-tp.prom)+" vs "+esc(wb.label||B):"",tp?(tn.prom>=tp.prom?"up":"dn"):"");
+    h+=tile("NS con tránsito",p1(tn.promT),pp(tn.promT-tn.prom)+" sobre el NS","wa");
+    h+=tile("Bajo 85%",String(tn.bajo85),tp?sg(tn.bajo85-tp.bajo85):"",tn.bajo85?"dn":"up");
+    h+=tile("En 95% o más",String(tn.sobre95),"","up");
+    h+=tile("Cajas asignadas",nf(tn.cajas),nf(tn.folios)+" folios");
+    h+=`</div></div></div></section>`;
+  }
+
+  /* ---- cerveza ---- */
+  const cv=cvres(wa);
+  if(cv){
+    const cp=wb?cvres(wb):null;
+    h+=`<section class="sec" id="cerveza"><div class="shead"><h2>Desempeño de cerveza</h2>
+      <p>Existencia en tienda en cajas y dinero, excedentes y venta del mes</p></div><div class="tiles">`;
+    h+=tile("Existencia en tienda",nf(cv.cajas)+" cj",cp?pc(cv.cajas/cp.cajas*100-100)+" vs "+esc(wb.label||B):"",
+      cp?(cv.cajas<=cp.cajas?"up":"dn"):"",true);
+    h+=tile("Inventario precio venta",mm(cv.importe),cp?pc(cv.importe/cp.importe*100-100):"",cp?(cv.importe<=cp.importe?"up":"dn"):"");
+    h+=tile("DDI promedio",E(wa,"ddiProm")!=null?nf(E(wa,"ddiProm")):"—",
+      E(wb,"ddiProm")!=null&&E(wa,"ddiProm")!=null?sg(E(wa,"ddiProm")-E(wb,"ddiProm"))+" días":"objetivo 28","dn");
+    h+=tile("Combinaciones > 28 DDI",nf(cv.exc28),cp?pc(cv.exc28/cp.exc28*100-100):"",cp?(cv.exc28<=cp.exc28?"up":"dn"):"");
+    h+=tile("Combinaciones > 300 cj",nf(cv.exc300),cp?sg(cv.exc300-cp.exc300):"",cp?(cv.exc300<=cp.exc300?"up":"dn"):"");
+    const vcv=sum(((wa.ventaCerveza)||[]).map(r=>(r.especialAA||0)+(r.normal||0)));
+    const vcvp=wb?sum(((wb.ventaCerveza)||[]).map(r=>(r.especialAA||0)+(r.normal||0))):null;
+    h+=tile("Venta del mes",vcv!=null?mm(vcv):"—",vcvp?pc(vcv/vcvp*100-100):"","up");
+    h+=`</div><div class="g2" style="margin-top:14px">`;
+    const srows=cv.skus.map(s=>{const p=cp?cp.skus.find(x=>norm(x.sku)===norm(s.sku)):null;
+      const dc=(p&&p.cajas)?s.cajas/p.cajas*100-100:null;
+      return {c:[s.sku,nf(s.cajas),p?nf(p.cajas):"—",dc==null?"—":dcell(pc(dc),dc<0?1:-1),mn(s.importe),
+        s.ddi!=null?{h:`<span style="font-weight:700;color:${s.ddi>28?"var(--bad)":"var(--good)"}">${nf(s.ddi)}</span>`}:"—",
+        nf(s.exc28),nf(s.exc300)]};});
+    srows.push({cls:"tot",c:["Total general",nf(cv.cajas),cp?nf(cp.cajas):"—",
+      cp?dcell(pc(cv.cajas/cp.cajas*100-100),cv.cajas<=cp.cajas?1:-1):"—",mn(cv.importe),
+      E(wa,"ddiProm")!=null?nf(E(wa,"ddiProm")):"—",nf(cv.exc28),nf(cv.exc300)]});
+    h+=`<div class="card"><h3>Existencia por presentación</h3><p class="k">Suma de las tres regiones</p>
+      ${tabla([{l:"SKU"},{l:"Cajas"},{l:esc(wb?(wb.label||B):"—")},{l:"Δ%"},{l:"Inventario $"},{l:"DDI prom."},{l:">28 DDI"},{l:">300 cj"}],srows,{min:600})}
+      <div class="note w"><h5>Cómo leer esta tabla</h5><ul>
+      <li>Las cifras de <b>&gt; 28 DDI</b> y <b>&gt; 300 cajas</b> son combinaciones artículo–tienda, no tiendas. La compañía tiene 252 tiendas en total.</li>
+      <li>El <b>DDI por SKU</b> es el promedio de las tres regiones; los días de inventario no se suman, así que el total de la última fila es el que reporta la fuente, no la suma de arriba.</li>
+      <li>En la columna Δ% la flecha indica si el movimiento conviene: bajar inventario sale en verde.</li></ul></div></div>`;
+    const rk=["Centro","Norte","Sur"], rcol={Centro:"var(--s1)",Norte:"var(--s2)",Sur:"var(--s3)"};
+    const rrows=rk.map(g=>{const r=cv.porReg[g]||{},p=cp?(cp.porReg[g]||{}):{};
+      const dc=p.cajas?r.cajas/p.cajas*100-100:null, di=p.importe?r.importe/p.importe*100-100:null;
+      return {c:[g,nf(r.cajas),dc==null?"—":dcell(pc(dc),dc<0?1:-1),mn(r.importe),di==null?"—":dcell(pc(di),di<0?1:-1),
+        cv.importe?p1(r.importe/cv.importe*100,1):"—",nf(r.exc28),nf(r.exc300)]};});
+    h+=`<div class="card"><h3>Riesgo por región</h3><p class="k">Dónde está cargado el inventario</p>
+      ${svgBars(rk.map(g=>({l:g,v:(cv.porReg[g]||{}).importe||0,color:rcol[g]})),{w:500,h:180,fmt:v=>mm(v,1)})}
+      ${tabla([{l:"Región"},{l:"Cajas"},{l:"Δ%"},{l:"Inventario $"},{l:"Δ%"},{l:"% $"},{l:">28"},{l:">300"}],rrows,{min:520})}</div>`;
+    h+=`</div></section>`;
+  }
+
+  /* ---- huevo ---- */
+  const hv=hvres(wa);
+  if(hv){
+    h+=`<section class="sec" id="huevo"><div class="shead"><h2>Venta de huevo</h2>
+      <p>Piezas por semana, región y presentación</p></div><div class="tiles">`;
+    h+=tile("Total de la semana",nf(hv.tU)+" pzs",hv.tP?pc(hv.tU/hv.tP*100-100)+" vs semana previa":"",hv.tP&&hv.tU>=hv.tP?"up":"dn",true);
+    h+=tile("Granel",nf(hv.gU),hv.gP?pc(hv.gU/hv.gP*100-100):"",hv.gP&&hv.gU>=hv.gP?"up":"dn");
+    h+=tile("Docenera",nf(hv.dU),hv.dP?pc(hv.dU/hv.dP*100-100):"",hv.dP&&hv.dU>=hv.dP?"up":"dn");
+    h+=tile("Mix docenera",p1(hv.mix),"Granel "+p1(100-hv.mix));
+    h+=tile("Venta del mes",E(wa,"hvMonto")!=null?mm(E(wa,"hvMonto")):"—",E(wa,"hvPiezas")!=null?nf(E(wa,"hvPiezas"))+" pzs":"");
+    h+=tile("Inventario en CEDIS",(E(wa,"hvInvGranel")!=null?nf(E(wa,"hvInvGranel")):"—")+" / "+(E(wa,"hvInvDoc")!=null?nf(E(wa,"hvInvDoc")):"—"),"Cajas granel / docenera","wa");
+    h+=`</div><div class="g2" style="margin-top:14px">`;
+    h+=`<div class="card"><h3>Granel contra docenera</h3><p class="k">Total compañía por semana</p>
+      ${svgLines([{v:hv.g,c:"var(--s2)",l:"Granel"},{v:hv.d,c:"var(--s1)",l:"Docenera"}],hv.semanas,{w:560,h:215})}
+      ${legend([{c:"var(--s2)",l:"Granel"},{c:"var(--s1)",l:"Docenera"}])}</div>`;
+    const pres=[...new Set(hv.filas.map(r=>r.presentacion))];
+    const regs=[...new Set(hv.filas.map(r=>REG(r.region)||r.region))].filter(Boolean);
+    const hrows=[];
+    pres.forEach(p=>regs.forEach(g=>{
+      const serie=hv.semanas.map(s=>sum(hv.filas.filter(r=>r.presentacion===p&&(REG(r.region)||r.region)===g&&r.semana===s).map(r=>r.piezas)));
+      if(!serie.some(x=>x!=null))return;
+      const L=serie.length-1, d=(serie[L]!=null&&serie[L-1])?serie[L]/serie[L-1]*100-100:null;
+      hrows.push({c:[p+" · "+g].concat(serie.map(nf)).concat([d==null?"—":dcell(pc(d),d>=0?1:-1)])});
+    }));
+    hrows.push({cls:"tot",c:["Total semana"].concat(hv.tot.map(nf)).concat([hv.tP?dcell(pc(hv.tU/hv.tP*100-100),hv.tU>=hv.tP?1:-1):"—"])});
+    h+=`<div class="card"><h3>Piezas por semana</h3><p class="k">Presentación y región</p>
+      ${tabla([{l:"Presentación · región"}].concat(hv.semanas.map(s=>({l:s}))).concat([{l:"Δ%"}]),hrows,{min:190+hv.semanas.length*66})}</div>`;
+    h+=`</div></section>`;
+  }
+
+  /* ---- venta perdida ---- */
+  const vpT=E(wa,"vpTotal"), vpc=(wa.vpCat)||[], vpp=(wa.vpProv)||[], vps=(wa.vpSku)||[], cvar=(wa.catVar)||[];
+  if(vpT!=null||vpc.length||cvar.length){
+    const vpTb=wb?E(wb,"vpTotal"):null;
+    const pmc=wb?Object.fromEntries(((wb.vpCat)||[]).map(r=>[norm(r.categoria),r])):{};
+    h+=`<section class="sec" id="perdida"><div class="shead"><h2>Venta perdida y categorías</h2>
+      <p>Pérdida por cartera y categorías con mayor movimiento de la semana</p></div><div class="tiles">`;
+    h+=tile("Venta perdida acumulada",vpT!=null?mm(vpT):"—",vpTb?pc(vpT/vpTb*100-100)+" vs "+esc(wb.label||B):"",
+      vpTb?(vpT<=vpTb?"up":"dn"):"",true);
+    const t10=sum(vps.slice(0,10).map(r=>r.monto));
+    h+=tile("Top 10 de productos",t10!=null?mn(t10):"—",(t10&&vpT)?p1(t10/vpT*100)+" del total":"");
+    h+=tile("Top de proveedores",sum(vpp.map(r=>r.monto))!=null?mn(sum(vpp.map(r=>r.monto))):"—",
+      (vpT&&vpp.length)?p1(sum(vpp.map(r=>r.monto))/vpT*100)+" en "+vpp.length+" proveedores":"");
+    const cu=sum(cvar.filter(r=>r.variacion>0).map(r=>r.variacion)), cd=sum(cvar.filter(r=>r.variacion<0).map(r=>r.variacion));
+    h+=tile("Variación neta de categorías",(cu!=null||cd!=null)?mn((cu||0)+(cd||0)):"—",
+      (cu!=null?mn(cu):"—")+" contra "+(cd!=null?mn(cd):"—"),((cu||0)+(cd||0))>=0?"up":"dn");
+    h+=tile("Proveedores con restricción",E(wa,"vpProvRestr")!=null?nf(E(wa,"vpProvRestr")):"—",
+      E(wa,"vpBloqTotal")!=null?nf(E(wa,"vpBloqTotal"))+" en bloqueo total":"","wa");
+    h+=`</div><div class="g3" style="margin-top:14px">`;
+    if(vpc.length){const rows=vpc.slice().sort((a,b)=>b.monto-a.monto).map(r=>{const p=pmc[norm(r.categoria)];
+      const d=p&&p.monto?r.monto/p.monto*100-100:null;
+      return {c:[r.categoria,mn(r.monto),vpT?p1(r.monto/vpT*100):"—",d==null?{h:`<span class="pill w">entra</span>`}:dcell(pc(d),d<0?1:-1)]};});
+      h+=`<div class="card"><h3>Por categoría</h3><p class="k">Contra ${esc(wb?(wb.label||B):"—")}</p>
+        ${tabla([{l:"Categoría"},{l:"Pérdida"},{l:"% total"},{l:"Mov."}],rows,{min:320})}</div>`;}
+    if(vpp.length){const rows=vpp.slice().sort((a,b)=>b.monto-a.monto).map(r=>({c:[r.proveedor,mn(r.monto),vpT?p1(r.monto/vpT*100):"—"]}));
+      h+=`<div class="card"><h3>Por proveedor</h3><p class="k">Con restricción de crédito</p>
+        ${tabla([{l:"Proveedor"},{l:"Pérdida"},{l:"% total"}],rows,{min:300})}</div>`;}
+    if(vps.length){const rows=vps.slice().sort((a,b)=>b.monto-a.monto).slice(0,12).map(r=>({c:[r.producto,mn(r.monto),vpT?p1(r.monto/vpT*100):"—"]}));
+      h+=`<div class="card"><h3>Productos más afectados</h3><p class="k">Top por monto de pérdida</p>
+        ${tabla([{l:"Producto"},{l:"Pérdida"},{l:"% total"}],rows,{min:300})}</div>`;}
+    h+=`</div>`;
+    if(cvar.length){
+      const arr=cvar.slice().sort((a,b)=>b.variacion-a.variacion);
+      const rows=arr.map(r=>({c:[r.categoria,{h:`<span style="font-weight:700;color:${r.variacion>=0?"var(--good)":"var(--bad)"}">${mn(r.variacion)}</span>`},
+        r.pct!=null?{h:`<span style="font-weight:700;color:${r.pct>=0?"var(--good)":"var(--bad)"}">${pc(r.pct,2)}</span>`}:"—"]}));
+      h+=`<div class="card" style="margin-top:14px"><h3>Categorías con mayor movimiento</h3>
+        <p class="k">Variación de la semana contra ${esc(wb?(wb.label||B):"la previa")}, como viene en el reporte</p>
+        ${tabla([{l:"Categoría"},{l:"Variación $"},{l:"Variación %"}],rows,{min:340})}</div>`;}
+    h+=`</section>`;
+  }
+
+  /* ---- adoptados ---- */
+  const ad=adres(wa);
+  if(ad){
+    const faltanDias=ad.semanas.filter(s=>!ad.dias[s]);
+    h+=`<section class="sec" id="adoptados"><div class="shead"><h2>Adoptados</h2>
+      <p>Venta por región, producto y semana, con ritmo diario</p></div><div class="tiles">`;
+    h+=tile("Venta del periodo",mn(ad.gran),ad.semanas.length+" semanas",null,true);
+    h+=tile("Ritmo diario "+esc(ad.ult),ad.ritmoU!=null?mn(ad.ritmoU):"—",
+      (ad.ritmoU!=null&&ad.ritmoP)?pc(ad.ritmoU/ad.ritmoP*100-100)+" vs semana previa":"captura los días",
+      (ad.ritmoU!=null&&ad.ritmoP)?(ad.ritmoU>=ad.ritmoP?"up":"dn"):"");
+    h+=tile("Mejor semana",ad.mejor||"—",ad.ritmo.some(x=>x!=null)?mn(Math.max(...ad.ritmo.filter(x=>x!=null)))+" por día":"");
+    const regs=Object.keys(ad.porReg);
+    const lider=regs.sort((a,b)=>sum(Object.values(ad.porReg[b]))-sum(Object.values(ad.porReg[a])))[0];
+    h+=tile("Región líder",lider||"—",lider?mn(sum(Object.values(ad.porReg[lider])))+" acumulado":"");
+    h+=`</div>`;
+    if(faltanDias.length)h+=`<div class="note w"><h5>Falta un dato para comparar bien</h5><ul>
+      <li>Sin los días que cubre cada semana no se puede calcular el ritmo diario de ${faltanDias.map(esc).join(", ")}. Cárgalos en <b>Cargar datos → Días por semana</b>. ${esc(DIAS_AYUDA)}</li></ul></div>`;
+    h+=`<div class="g2" style="margin-top:14px">`;
+    if(ad.ritmo.some(x=>x!=null))
+      h+=`<div class="card"><h3>Ritmo diario por semana</h3><p class="k">Monto de la semana entre los días que cubre, para que semanas parciales sean comparables</p>
+        ${svgBars(ad.semanas.map((s,i)=>({l:s,v:ad.ritmo[i]||0})),{w:520,h:195,fmt:v=>mn(v)})}</div>`;
+    const prods=Object.keys(ad.porProd);
+    const arows=[];
+    regs.forEach(g=>{
+      arows.push({cls:"grp",c:[g].concat(ad.semanas.map(()=>"")).concat([""])});
+      prods.forEach(p=>{
+        const serie=ad.semanas.map(s=>sum(((wa.adoptados)||[]).filter(r=>(REG(r.region)||r.region)===g&&r.producto===p&&r.semana===s).map(r=>r.monto)));
+        if(!serie.some(x=>x!=null))return;
+        const L=serie.length-1;
+        const rA=ad.dias[ad.semanas[L]]?serie[L]/ad.dias[ad.semanas[L]]:null;
+        const rB=ad.dias[ad.semanas[L-1]]&&serie[L-1]!=null?serie[L-1]/ad.dias[ad.semanas[L-1]]:null;
+        const d=(rA!=null&&rB)?rA/rB*100-100:null;
+        arows.push({c:[p].concat(serie.map(v=>v==null?"—":nf(v))).concat([d==null?"—":dcell(pc(d),d>=0?1:-1)])});
+      });
+    });
+    arows.push({cls:"tot",c:["Total compañía"].concat(ad.tot.map(nf)).concat([
+      (ad.ritmoU!=null&&ad.ritmoP)?dcell(pc(ad.ritmoU/ad.ritmoP*100-100),ad.ritmoU>=ad.ritmoP?1:-1):"—"])});
+    h+=`<div class="card"><h3>Venta por región y producto</h3><p class="k">La última columna compara ritmo diario, no monto</p>
+      ${tabla([{l:"Región · producto"}].concat(ad.semanas.map(s=>({l:s}))).concat([{l:"Δ ritmo"}]),arows,{min:230+ad.semanas.length*72})}</div>`;
+    h+=`</div></section>`;
+  }
+
+  /* ---- artículos / hueco ---- */
+  const ar=artres(wa);
+  if(ar){
+    h+=`<section class="sec"><div class="shead"><h2>Anatomía del hueco</h2>
+      <p>Artículos con mayor faltante, clasificados según exista o no en el CEDIS</p></div><div class="tiles">`;
+    h+=tile("Gestión central",ar.g0.n+" art.",nf(ar.g0.hueco)+" registros · 0 cajas en CEDIS","dn",true);
+    h+=tile("Existencia corta",ar.gm.n+" art.",nf(ar.gm.hueco)+" registros con "+nf(ar.gm.inv)+" cajas","wa");
+    h+=tile("Gestión de abasto",ar.gr.n+" art.",nf(ar.gr.hueco)+" registros con "+nf(ar.gr.inv)+" cajas","up");
+    h+=tile("Top 10 · faltante",ar.top10!=null?p1(ar.top10):"—","De "+(V.faltante!=null?p1(V.faltante):"—")+" del CD");
+    h+=`</div><div class="card" style="margin-top:14px"><h3>Clasificación por existencia en CEDIS</h3>
+      <p class="k">Central: no hay nada que asignar, es compra. Corta: hay menos cajas que registros con hueco. Abasto: alcanza y se cierra asignando.</p>`;
+    const grupos=[["Sin existencia en CEDIS · compra central",ar.g0,"b"],["Con existencia insuficiente · mixta",ar.gm,"w"],["Con existencia suficiente · asignación",ar.gr,"g"]];
+    const rows=[];
+    grupos.forEach(([t,gr,cls])=>{
+      if(!gr.n)return;
+      rows.push({cls:"grp",c:[t,"","","","","",""]});
+      gr.filas.slice().sort((a,b)=>(b.faltante||0)-(a.faltante||0)).forEach(r=>{
+        rows.push({c:[r.articulo,p1(r.faltante),p1(r.ns),nf(r.desabasto),nf(r.hueco),
+          {h:`<span style="font-weight:700;color:${r.inventario===0?"var(--bad)":"var(--ink)"}">${nf(r.inventario)}</span>`},
+          {h:`<span class="pill ${cls}">${cls==="b"?"Central":cls==="w"?"Mixta":"Abasto"}</span>`}]});});
+      rows.push({cls:"tot",c:["Subtotal · "+gr.n+" artículos","","",nf(gr.desabasto),nf(gr.hueco),nf(gr.inv),""]});
+    });
+    h+=tabla([{l:"Artículo"},{l:"% falt."},{l:"NS"},{l:"Desab."},{l:"Hueco"},{l:"Inv. CEDIS"},{l:"Gestión",a:"center"}],rows,{min:560});
+    h+=`</div></section>`;
+  }
+
+  bd.innerHTML=h;
+  $("#foot").innerHTML=`Semanas guardadas: ${keys.map(k=>esc(SEM[k].label||k)).join(" · ")}. `+
+    `Todo lo que se muestra se calcula de los reportes cargados; nada está escrito en la página. `+
+    `El detalle por zona compara los cortes que traiga cada reporte.`;
+}
+
+/* ===================== selectores de semana ===================== */
+function pintarSelectores(){
+  const keys=Object.keys(SEM).sort().reverse();
+  [["#selA",A],["#selB",B]].forEach(([sel,val])=>{
+    const s=$(sel); s.innerHTML="";
+    if(sel==="#selB")s.appendChild(el("option",{value:""},"— ninguna"));
+    keys.forEach(k=>{const o=el("option",{value:k},SEM[k].label||k);if(k===val)o.selected=true;s.appendChild(o);});
+  });
+}
+function setSemanas(){
+  const keys=Object.keys(SEM).sort();
+  if(!keys.length){A=B=null;return;}
+  if(!A||!SEM[A])A=keys[keys.length-1];
+  if(B===undefined||!SEM[B]){const i=keys.indexOf(A);B=i>0?keys[i-1]:null;}
+}
+
+/* ===================== captura ===================== */
+window.abrirCaptura=function(){CAP.paso=0;CAP.rep=null;pintarCaptura();$("#ov").hidden=false;};
+function cerrarCaptura(){$("#ov").hidden=true;$("#ov").innerHTML="";}
+function pintarCaptura(){
+  const ov=$("#ov");
+  const pasos=["Qué reporte","Pegar o subir","Asignar columnas","Guardar"];
+  let h=`<div class="panel" role="dialog" aria-label="Cargar datos"><div class="phead">
+    <h3>Cargar datos</h3><div class="steps">${pasos.map((p,i)=>`<span class="step${i===CAP.paso?" on":""}">${i+1}. ${esc(p)}</span>`).join("")}</div>
+    <button class="x" id="cerrar" aria-label="Cerrar">×</button></div><div class="pbody" id="pb"></div></div>`;
+  ov.innerHTML=h;
+  $("#cerrar").onclick=cerrarCaptura;
+  ov.onclick=e=>{if(e.target===ov)cerrarCaptura();};
+  const pb=$("#pb");
+  if(CAP.paso===0)pasoReporte(pb);
+  else if(CAP.paso===1)pasoDatos(pb);
+  else if(CAP.paso===2)pasoMapeo(pb);
+}
+function semanaActual(){return SEM[A]||null;}
+function pasoReporte(pb){
+  const wa=semanaActual();
+  let h=`<div class="fld"><label for="wkid">Semana a la que pertenecen los datos</label>
+    <div class="frow"><input type="text" id="wkid" value="${esc(A||"")}" placeholder="2026-S41">
+    <input type="text" id="wklabel" value="${esc(wa?wa.label||"":"")}" placeholder="Etiqueta, por ejemplo S41"></div>
+    <span class="hint">Usa el mismo formato siempre, por ejemplo 2026-S41, para que las semanas se ordenen solas.</span></div>
+    <div class="fld"><label for="wkcorte">Fecha de corte</label><input type="text" id="wkcorte" value="${esc(wa&&wa.corte||"")}" placeholder="05/10/2026"></div>
+    <h4 style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-top:4px">Reportes en tabla</h4><div class="rlist">`;
+  REPORTES.forEach(r=>{
+    const n=wa&&wa[r.key]?wa[r.key].length:0;
+    h+=`<button class="rbtn" data-rep="${r.key}"><b>${esc(r.t)}</b><span>${esc(r.d)}</span>${n?`<em>${n} filas cargadas</em>`:""}</button>`;});
+  h+=`</div><h4 style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-top:4px">Captura directa</h4>
+    <div class="rlist"><button class="rbtn" data-rep="__esc"><b>Cifras sueltas</b><span>Adherencia, asignado y recibido del mes, inventarios en CEDIS, total de venta perdida</span></button>
+    <button class="rbtn" data-rep="__dias"><b>Días por semana</b><span>Para que el ritmo diario de adoptados sea comparable</span></button></div>`;
+  pb.innerHTML=h;
+  pb.querySelectorAll("[data-rep]").forEach(b=>b.onclick=()=>{
+    const id=($("#wkid").value||"").trim();
+    if(!id){msg(pb,"er","Escribe el identificador de la semana, por ejemplo 2026-S41.");return;}
+    CAP.semana={id,label:($("#wklabel").value||id.split("-").pop()).trim(),corte:($("#wkcorte").value||"").trim()};
+    const k=b.getAttribute("data-rep");
+    if(k==="__esc"){pasoEscalares(pb);return;}
+    if(k==="__dias"){pasoDias(pb);return;}
+    CAP.rep=RMAP[k];CAP.modo="largo";CAP.headers=[];CAP.rows=[];CAP.map={};CAP.dim={};CAP.medida=null;CAP.file="";
+    CAP.paso=1;pintarCaptura();});
+}
+function msg(pb,cls,t){const d=el("div",{class:"msg "+cls},t);pb.appendChild(d);setTimeout(()=>d.remove(),6000);}
+function pasoDatos(pb){
+  const r=CAP.rep;
+  pb.innerHTML=`<div><b style="font-size:14px">${esc(r.t)}</b><div style="font-size:12px;color:var(--ink3)">${esc(r.d)}</div></div>
+    <div class="drop" id="drop"><b style="font-size:13px">Arrastra el archivo aquí</b>
+      <div style="font-size:12px;color:var(--ink3);margin:4px 0 10px">Excel (.xlsx) o CSV. También puedes elegirlo.</div>
+      <input type="file" id="file" accept=".xlsx,.xls,.csv,.txt,.tsv">
+      <div id="fname" style="font-size:12px;color:var(--good);margin-top:8px"></div></div>
+    <div class="fld"><label for="paste">O pega la tabla copiada de Excel</label>
+      <textarea id="paste" placeholder="Pega aquí, con la fila de encabezados incluida"></textarea>
+      <span class="hint">Selecciona en Excel incluyendo los encabezados y pega. Se aceptan tabulaciones, comas o punto y coma.</span></div>
+    <div class="rowend"><button class="btn2" id="atras">Atrás</button><button class="btn2 pri" id="sig" disabled>Continuar</button></div>`;
+  const sig=$("#sig"), drop=$("#drop"), fname=$("#fname");
+  const listo=()=>{sig.disabled=!(CAP.rows&&CAP.rows.length);};
+  const cargaTexto=t=>{const p=parseDelim(t);if(p){CAP.headers=p.h;CAP.rows=p.r;CAP.file="pegado";fname.textContent=p.r.length+" filas detectadas";}listo();};
+  $("#paste").addEventListener("input",e=>cargaTexto(e.target.value));
+  $("#paste").addEventListener("paste",()=>setTimeout(()=>cargaTexto($("#paste").value),0));
+  const archivo=f=>{
+    if(!f)return;
+    const ext=(f.name.split(".").pop()||"").toLowerCase();
+    if(ext==="csv"||ext==="txt"||ext==="tsv"){
+      const fr=new FileReader();
+      fr.onload=()=>{const p=parseDelim(String(fr.result));
+        if(p){CAP.headers=p.h;CAP.rows=p.r;CAP.file=f.name;fname.textContent=f.name+" · "+p.r.length+" filas";}else msg(pb,"er","No pude leer filas de ese archivo.");listo();};
+      fr.readAsText(f,"utf-8");return;}
+    if(typeof XLSX==="undefined"){msg(pb,"er","El lector de Excel no cargó. Guarda la hoja como CSV o pega la tabla.");return;}
+    const fr=new FileReader();
+    fr.onload=()=>{try{
+      const wb=XLSX.read(new Uint8Array(fr.result),{type:"array"});
+      const sh=wb.Sheets[wb.SheetNames[0]];
+      const aoa=XLSX.utils.sheet_to_json(sh,{header:1,blankrows:false,defval:null});
+      const p=parseAoa(aoa);
+      if(p){CAP.headers=p.h;CAP.rows=p.r;CAP.file=f.name;fname.textContent=f.name+" · hoja "+wb.SheetNames[0]+" · "+p.r.length+" filas";}
+      else msg(pb,"er","La hoja no tiene una fila de encabezados reconocible.");
+      listo();}catch(e){msg(pb,"er","No pude abrir el archivo: "+e.message);}};
+    fr.readAsArrayBuffer(f);};
+  $("#file").onchange=e=>archivo(e.target.files[0]);
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("hot");}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("hot");}));
+  drop.addEventListener("drop",e=>{if(e.dataTransfer.files[0])archivo(e.dataTransfer.files[0]);});
+  $("#atras").onclick=()=>{CAP.paso=0;pintarCaptura();};
+  sig.onclick=()=>{CAP.paso=2;pintarCaptura();};
+}
+function parseDelim(t){
+  const lines=String(t).replace(/\r/g,"").split("\n").filter(l=>l.trim()!=="");
+  if(lines.length<2)return null;
+  const cand=["\t",";",",","|"];
+  const d=cand.map(c=>({c,n:lines[0].split(c).length})).sort((a,b)=>b.n-a.n)[0];
+  if(d.n<2)return null;
+  return parseAoa(lines.map(l=>l.split(d.c).map(c=>c.trim().replace(/^"(.*)"$/,"$1"))));
+}
+function parseAoa(aoa){
+  if(!aoa||!aoa.length)return null;
+  let hi=0;
+  for(let i=0;i<Math.min(aoa.length,8);i++){
+    const nn=(aoa[i]||[]).filter(c=>c!=null&&String(c).trim()!=="").length;
+    if(nn>((aoa[hi]||[]).filter(c=>c!=null&&String(c).trim()!=="").length))hi=i;}
+  const raw=(aoa[hi]||[]).map((c,i)=>{const s=String(c==null?"":c).replace(/\s+/g," ").trim();return s||"Columna "+(i+1);});
+  const h=[];const seen={};
+  raw.forEach(s=>{let n=s;if(seen[n]){seen[s]++;n=s+" ("+seen[s]+")";}else seen[s]=1;h.push(n);});
+  const r=aoa.slice(hi+1).filter(row=>(row||[]).some(c=>c!=null&&String(c).trim()!==""))
+    .map(row=>Object.fromEntries(h.map((k,i)=>[k,row[i]==null?null:row[i]])));
+  return r.length?{h,r}:null;
+}
+function adivina(campo,headers,usados){
+  const cands=[norm(campo.l)].concat(campo.al.map(norm)).concat([norm(campo.k)]);
+  let best=null,bs=0;
+  headers.forEach(hh=>{
+    if(usados.includes(hh))return;
+    const n=norm(hh);
+    cands.forEach(c=>{
+      let s=0;
+      if(n===c)s=100; else if(n.startsWith(c)||c.startsWith(n))s=80;
+      else if(n.includes(c)||c.includes(n))s=60;
+      else{const a=new Set(c.split(" ")),b=new Set(n.split(" "));const inter=[...a].filter(x=>b.has(x)).length;
+        if(inter)s=30+inter*10;}
+      if(s>bs){bs=s;best=hh;}});});
+  return bs>=55?best:null;
+}
+function pasoMapeo(pb){
+  const r=CAP.rep, H=CAP.headers;
+  const guardado=MAPEOS[r.key]||{};
+  const sel=(id,val,extra)=>`<select id="${id}">${extra||""}<option value="">— ninguna —</option>`+
+    H.map(h=>`<option value="${esc(h)}"${h===val?" selected":""}>${esc(h)}</option>`).join("")+`</select>`;
+  let h=`<div><b style="font-size:14px">${esc(r.t)}</b>
+    <div style="font-size:12px;color:var(--ink3)">${CAP.rows.length} filas · ${H.length} columnas${CAP.file?" · "+esc(CAP.file):""}</div></div>`;
+  if(r.dim2)h+=`<div class="fld"><label>Forma de la tabla</label>
+    <select id="modo"><option value="largo"${CAP.modo==="largo"?" selected":""}>Una fila por combinación (${esc(r.dim2.l.toLowerCase())} en una columna)</option>
+    <option value="ancho"${CAP.modo==="ancho"?" selected":""}>Pivote: ${esc(r.dim2.l.toLowerCase())} en columnas</option></select>
+    <span class="hint">Los pivotes de Power BI y las tablas dinámicas de Excel casi siempre vienen con ${esc(r.dim2.l.toLowerCase())} en columnas.</span></div>`;
+  const usados=[];
+  const campos=r.filas.concat(r.extras||[]);
+  h+=`<div><label style="font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)">Columnas de identidad</label>`;
+  campos.forEach(c=>{const g=guardado[c.k]&&H.includes(guardado[c.k])?guardado[c.k]:adivina(c,H,usados);
+    if(g)usados.push(g);
+    h+=`<div class="maprow"><b>${esc(c.l)}<small>${c.t==="s"?"texto":"número"}${(r.filas.indexOf(c)>=0)?" · obligatoria":" · opcional"}</small></b>${sel("m_"+c.k,g)}</div>`;});
+  h+=`</div>`;
+  if(r.dim2&&CAP.modo==="ancho"){
+    h+=`<div class="fld"><label for="medida">Qué medida trae este pivote</label>
+      <select id="medida">${r.medidas.map(m=>`<option value="${m.k}"${CAP.medida===m.k?" selected":""}>${esc(m.l)}</option>`).join("")}</select></div>
+      <div><label style="font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)">Columna de cada ${esc(r.dim2.l.toLowerCase())}</label>`;
+    r.dim2.vals.forEach(v=>{const g=H.find(hh=>norm(hh)===norm(v))||H.find(hh=>norm(hh).includes(norm(v)))||"";
+      h+=`<div class="maprow"><b>${esc(v)}</b>${sel("d_"+v,g)}</div>`;});
+    h+=`</div>`;
+  }else{
+    h+=`<div><label style="font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)">Columnas de valores</label>`;
+    (r.dim2?[r.dim2].map(d=>({k:d.k,l:d.l,al:[],t:"s"})):[]).concat(r.medidas).forEach(c=>{
+      const g=guardado[c.k]&&H.includes(guardado[c.k])?guardado[c.k]:adivina(c,H,usados);
+      if(g)usados.push(g);
+      h+=`<div class="maprow"><b>${esc(c.l)}<small>deja en ninguna lo que este archivo no traiga</small></b>${sel("m_"+c.k,g)}</div>`;});
+    h+=`</div>`;
+  }
+  h+=`<div id="prev"></div><div class="rowend"><button class="btn2" id="atras">Atrás</button>
+    <button class="btn2" id="ver">Ver cómo quedaría</button><button class="btn2 pri" id="guardar">Guardar en la semana</button></div>`;
+  pb.innerHTML=h;
+  if(r.dim2)$("#modo").onchange=e=>{CAP.modo=e.target.value;pintarCaptura();};
+  $("#atras").onclick=()=>{CAP.paso=1;pintarCaptura();};
+  $("#ver").onclick=()=>{const d=construir();$("#prev").innerHTML=d.err?`<div class="msg er">${esc(d.err)}</div>`:previsualiza(d.filas);};
+  $("#guardar").onclick=async()=>{
+    const d=construir();
+    if(d.err){$("#prev").innerHTML=`<div class="msg er">${esc(d.err)}</div>`;return;}
+    $("#guardar").disabled=true;
+    const err=await guardar(CAP.rep.key,d.filas,d.mapa);
+    $("#guardar").disabled=false;
+    if(err){$("#prev").innerHTML=`<div class="msg er">${esc(err)}</div>`;return;}
+    $("#prev").innerHTML=`<div class="msg ok">Se guardaron ${d.filas.length} filas en ${esc(CAP.semana.label||CAP.semana.id)}.</div>`;
+    setTimeout(()=>{CAP.paso=0;pintarCaptura();},900);
+  };
+}
+function construir(){
+  const r=CAP.rep, mapa={};
+  const get=k=>{const e=$("#m_"+k);return e?e.value:"";};
+  for(const c of r.filas){const col=get(c.k);if(!col)return {err:"Falta asignar la columna de "+c.l+"."};mapa[c.k]=col;}
+  (r.extras||[]).forEach(c=>{const col=get(c.k);if(col)mapa[c.k]=col;});
+  const filas=[];
+  const limpio=v=>String(v==null?"":v).replace(/\s+/g," ").trim();
+  const esTotal=s=>/^(total|total general|gran total|cadena)/.test(norm(s));
+  if(r.dim2&&CAP.modo==="ancho"){
+    const med=$("#medida").value;
+    const colDim={};let alguna=false;
+    r.dim2.vals.forEach(v=>{const e=$("#d_"+v);if(e&&e.value){colDim[v]=e.value;alguna=true;}});
+    if(!alguna)return {err:"Asigna al menos una columna de "+r.dim2.l.toLowerCase()+"."};
+    CAP.rows.forEach(row=>{
+      const base={};let vacio=false;
+      r.filas.forEach(c=>{const v=limpio(row[mapa[c.k]]);if(!v)vacio=true;base[c.k]=v;});
+      if(vacio)return;
+      if(r.filas.some(c=>esTotal(base[c.k])&&r.key!=="cedis"))return;
+      Object.keys(colDim).forEach(v=>{
+        const n=num(row[colDim[v]]);
+        if(n==null)return;
+        filas.push(Object.assign({},base,{[r.dim2.k]:v,[med]:n}));});
+    });
+  }else{
+    const cols=(r.dim2?[{k:r.dim2.k,t:"s"}]:[]).concat(r.medidas);
+    cols.forEach(c=>{const col=get(c.k);if(col)mapa[c.k]=col;});
+    CAP.rows.forEach(row=>{
+      const o={};let vacio=false;
+      r.filas.forEach(c=>{const v=limpio(row[mapa[c.k]]);if(!v)vacio=true;o[c.k]=v;});
+      if(vacio)return;
+      if(r.filas.some(c=>esTotal(o[c.k]))&&r.key!=="cedis")return;
+      (r.extras||[]).forEach(c=>{if(mapa[c.k])o[c.k]=limpio(row[mapa[c.k]]);});
+      if(r.dim2&&mapa[r.dim2.k])o[r.dim2.k]=limpio(row[mapa[r.dim2.k]]);
+      let hay=false;
+      r.medidas.forEach(c=>{if(!mapa[c.k])return;const n=num(row[mapa[c.k]]);if(n!=null){o[c.k]=n;hay=true;}});
+      if(!hay&&!r.dim2)return;
+      filas.push(o);});
+  }
+  if(!filas.length)return {err:"No salió ninguna fila. Revisa que las columnas asignadas sean las correctas."};
+  return {filas,mapa};
+}
+function previsualiza(filas){
+  const ks=[...new Set(filas.flatMap(f=>Object.keys(f)))];
+  let h=`<div class="pv"><table><thead><tr>${ks.map(k=>`<th style="text-align:left">${esc(k)}</th>`).join("")}</tr></thead><tbody>`;
+  filas.slice(0,6).forEach(f=>{h+=`<tr>${ks.map(k=>`<td style="text-align:left">${esc(f[k]==null?"":typeof f[k]==="number"?nf(f[k]):f[k])}</td>`).join("")}</tr>`;});
+  return h+`</tbody></table></div><div style="font-size:11.5px;color:var(--ink3);margin-top:5px">${filas.length} filas en total; se muestran las primeras ${Math.min(6,filas.length)}.</div>`;
+}
+function pasoEscalares(pb){
+  const wa=SEM[CAP.semana.id]||{};
+  const e=wa.esc||{};
+  let h=`<div><b style="font-size:14px">Cifras sueltas de ${esc(CAP.semana.label||CAP.semana.id)}</b>
+    <div style="font-size:12px;color:var(--ink3)">Lo que no viene en tabla. Deja en blanco lo que no tengas.</div></div>`;
+  ESCALARES.forEach(g=>{
+    h+=`<div><label style="font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)">${esc(g.g)}</label><div class="frow">`;
+    g.f.forEach(([k,l])=>{h+=`<div class="fld"><label for="e_${k}">${esc(l)}</label>
+      <input type="number" step="any" id="e_${k}" value="${e[k]!=null?e[k]:""}"></div>`;});
+    h+=`</div></div>`;});
+  h+=`<div id="prev"></div><div class="rowend"><button class="btn2" id="atras">Atrás</button><button class="btn2 pri" id="guardar">Guardar</button></div>`;
+  pb.innerHTML=h;
+  $("#atras").onclick=()=>{CAP.paso=0;pintarCaptura();};
+  $("#guardar").onclick=async()=>{
+    const o={};
+    ESCALARES.forEach(g=>g.f.forEach(([k])=>{const v=$("#e_"+k).value;if(v!=="")o[k]=parseFloat(v);}));
+    $("#guardar").disabled=true;
+    const err=await guardar("esc",o);
+    $("#guardar").disabled=false;
+    if(err){$("#prev").innerHTML=`<div class="msg er">${esc(err)}</div>`;return;}
+    $("#prev").innerHTML=`<div class="msg ok">Cifras guardadas.</div>`;setTimeout(()=>{CAP.paso=0;pintarCaptura();},900);
+  };
+}
+function pasoDias(pb){
+  const wa=SEM[CAP.semana.id]||{};
+  const d=wa.dias||{};
+  const txt=Object.keys(d).sort().map(k=>k+":"+d[k]).join(", ");
+  pb.innerHTML=`<div><b style="font-size:14px">Días que cubre cada semana</b>
+    <div style="font-size:12px;color:var(--ink3)">${esc(DIAS_AYUDA)}</div></div>
+    <div class="fld"><label for="dias">Días por semana</label><input type="text" id="dias" value="${esc(txt)}" placeholder="S36:6, S37:7, S38:7, S39:7, S40:3">
+    <span class="hint">Sirve para que el ritmo diario de adoptados compare semanas completas con semanas parciales.</span></div>
+    <div id="prev"></div><div class="rowend"><button class="btn2" id="atras">Atrás</button><button class="btn2 pri" id="guardar">Guardar</button></div>`;
+  $("#atras").onclick=()=>{CAP.paso=0;pintarCaptura();};
+  $("#guardar").onclick=async()=>{
+    const o={};
+    ($("#dias").value||"").split(/[,;]/).forEach(par=>{
+      const m=par.split(":");if(m.length<2)return;
+      const k=m[0].trim().toUpperCase(),v=parseInt(m[1],10);
+      if(k&&isFinite(v)&&v>0)o[k]=v;});
+    if(!Object.keys(o).length){$("#prev").innerHTML=`<div class="msg er">No pude leer ningún par. Usa el formato S40:3.</div>`;return;}
+    $("#guardar").disabled=true;
+    const err=await guardar("dias",o);
+    $("#guardar").disabled=false;
+    if(err){$("#prev").innerHTML=`<div class="msg er">${esc(err)}</div>`;return;}
+    $("#prev").innerHTML=`<div class="msg ok">Días guardados.</div>`;setTimeout(()=>{CAP.paso=0;pintarCaptura();},900);
+  };
+}
+async function guardar(campo,valor,mapa){
+  const id=CAP.semana.id;
+  if(!DB)return "Para guardar datos abre el tablero con tu cuenta de Claude.";
+  try{
+    const doc=DB.doc("semanas/"+id);
+    const patch={label:CAP.semana.label||id,id};
+    if(CAP.semana.corte)patch.corte=CAP.semana.corte;
+    patch[campo]=valor;
+    await doc.set(Object.assign({},SEM[id]||{},patch));
+    if(mapa&&CAP.rep){MAPEOS[CAP.rep.key]=mapa;
+      try{await DB.doc("config/mapeos").set(MAPEOS);}catch(e){}}
+    A=id;
+    return null;
+  }catch(e){
+    const code=e&&e.code?e.code:"";
+    if(code==="invalid_argument"){PUEDE=false;return "Tu nivel de acceso a este tablero es de solo lectura, así que no puedo guardar. Pide acceso de Contributor o superior a quien lo compartió.";}
+    if(code==="quota_exceeded")return "El almacenamiento del tablero está lleno. Borra una semana vieja antes de cargar otra.";
+    if(code==="resource_exhausted")return "Demasiadas escrituras seguidas. Espera unos segundos y vuelve a intentar.";
+    return "No se pudo guardar: "+(e&&e.message?e.message:code||e);
+  }
+}
+
+/* ===================== arranque ===================== */
+(function tema(){
+  const b=$("#btnTheme");
+  b.onclick=()=>{
+    const cur=document.documentElement.getAttribute("data-theme");
+    const next=cur==="dark"?"light":cur==="light"?"":"dark";
+    if(next)document.documentElement.setAttribute("data-theme",next);else document.documentElement.removeAttribute("data-theme");
+    try{localStorage.setItem("abasto-tema",next);}catch(e){}
+  };
+  try{const t=localStorage.getItem("abasto-tema");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}
+})();
+$("#btnCap").onclick=()=>abrirCaptura();
+$("#selA").onchange=e=>{A=e.target.value;render();};
+$("#selB").onchange=e=>{B=e.target.value||null;render();};
+$("#nav").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;
+  $("#nav").querySelectorAll("a").forEach(x=>x.classList.remove("on"));a.classList.add("on");});
+
+setSemanas();pintarSelectores();render();
+
+(async function conectar(){
+  try{
+    DB=await claude.use("db");
+    USER=await claude.use("user");
+    if(USER&&USER.can){try{PUEDE=await USER.can("data.write");}catch(e){PUEDE=null;}}
+  }catch(e){DB=null;}
+  if(!DB){render();return;}
+  try{
+    const cfg=await DB.doc("config/mapeos").get();
+    if(cfg&&cfg.exists){const d=cfg.data();if(d)MAPEOS=d;}
+  }catch(e){}
+  try{
+    UNSUB=DB.collection("semanas").onSnapshot(snap=>{
+      SEM=aplanar(snap);setSemanas();pintarSelectores();render();
+    },err=>{ERR=err&&err.code?err.code:"unavailable";render();});
+  }catch(e){
+    try{SEM=aplanar(await DB.collection("semanas").get());setSemanas();pintarSelectores();render();}
+    catch(e2){ERR="unavailable";render();}
+  }
+})();
+</script>
+
+</body></html>
